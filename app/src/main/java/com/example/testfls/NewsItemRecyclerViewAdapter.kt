@@ -6,8 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 
-
-import com.example.testfls.NewsListFragment.OnListFragmentInteractionListener
 import com.example.testfls.dummy.DummyContent.DummyItem
 import com.example.testfls.model.NewsItem
 
@@ -19,8 +17,7 @@ import kotlinx.android.synthetic.main.fragment_newsitem.view.*
  * TODO: Replace the implementation with code for your data type.
  */
 class NewsItemRecyclerViewAdapter(
-    private val mValues: List<DummyItem>,
-    private val mListener: OnListFragmentInteractionListener?
+    private val mValues: List<DummyItem>
 ) : RecyclerView.Adapter<NewsItemRecyclerViewAdapter.ViewHolder>() {
 
     private val mOnClickListener: View.OnClickListener
@@ -34,9 +31,6 @@ class NewsItemRecyclerViewAdapter(
     init {
         mOnClickListener = View.OnClickListener { v ->
             val item = v.tag as DummyItem
-            // Notify the active callbacks interface (the activity, if the fragment is attached to
-            // one) that an item has been selected.
-            mListener?.onListFragmentInteraction(item)
         }
     }
 

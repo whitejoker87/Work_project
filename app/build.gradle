@@ -37,4 +37,11 @@ dependencies {
 
     // MVP + ViewState + LCE Views
     implementation 'com.hannesdorfmann.mosby3:mvp-lce:3.1.1'
+
+    implementation 'com.squareup.retrofit2:retrofit:2.6.2'
+    implementation 'com.tickaroo.tikxml:annotation:0.8.13'
+    implementation 'com.tickaroo.tikxml:core:0.8.13'
+    implementation 'com.tickaroo.tikxml:retrofit-converter:0.8.13'
+
+    annotationProcessor 'com.tickaroo.tikxml:processor:0.8.13'
 }
