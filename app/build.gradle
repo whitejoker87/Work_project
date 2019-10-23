@@ -4,6 +4,8 @@ apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
 
+apply plugin: 'kotlin-kapt'
+
 android {
     compileSdkVersion 29
     buildToolsVersion "29.0.2"
@@ -39,9 +41,7 @@ dependencies {
     implementation 'com.hannesdorfmann.mosby3:mvp-lce:3.1.1'
 
     implementation 'com.squareup.retrofit2:retrofit:2.6.2'
-    implementation 'com.tickaroo.tikxml:annotation:0.8.13'
-    implementation 'com.tickaroo.tikxml:core:0.8.13'
-    implementation 'com.tickaroo.tikxml:retrofit-converter:0.8.13'
-
-    annotationProcessor 'com.tickaroo.tikxml:processor:0.8.13'
+    implementation 'com.squareup.retrofit2:converter-simplexml:2.6.2'
+    //Debug query for Retrofit
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.11.0'
 }
