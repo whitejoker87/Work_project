@@ -11,19 +11,24 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 
-import com.example.testfls.dummy.DummyContent
-import com.example.testfls.dummy.DummyContent.DummyItem
 import com.example.testfls.model.NewsItem
 import com.example.testfls.presenter.NewsPresenter
 import com.example.testfls.view.NewsView
 import com.hannesdorfmann.mosby3.mvp.viewstate.lce.LceViewState
 import com.hannesdorfmann.mosby3.mvp.viewstate.lce.MvpLceViewStateFragment
 import com.hannesdorfmann.mosby3.mvp.viewstate.lce.data.RetainingLceViewState
+import kotlinx.android.synthetic.main.fragment_newsitem_list.view.*
 
 
-class NewsListFragment : NewsView, MvpLceViewStateFragment<SwipeRefreshLayout, List<NewsItem>, NewsView, NewsPresenter>(), SwipeRefreshLayout.OnRefreshListener {
+class NewsListFragment : NewsView,
+    MvpLceViewStateFragment<SwipeRefreshLayout, List<NewsItem>, NewsView, NewsPresenter>(),
+    SwipeRefreshLayout.OnRefreshListener, NewsItemRecyclerViewAdapter.NewsItemRecyclerViewAdapterCallback {
 
-    val newsAdapter = NewsItemRecyclerViewAdapter(DummyContent.ITEMS)
+    override fun onItemClick(pos: Int) {
+        (activity as MainActivity).setFragment(NewsItemFragment.newInstance(pos), "newsItem")
+    }
+
+    private val newsAdapter = NewsItemRecyclerViewAdapter(this)
 
 
     override fun createPresenter(): NewsPresenter {
@@ -36,19 +41,19 @@ class NewsListFragment : NewsView, MvpLceViewStateFragment<SwipeRefreshLayout, L
 
 
     override fun setData(data: List<NewsItem>?) {
-        newsAdapter.setNewsItems(listOf())
+        newsAdapter.setNewsItems(data!!)
     }
 
     override fun loadData(pullToRefresh: Boolean) {
-        presenter.loadNews(pullToRefresh)
+        presenter.getRss(pullToRefresh)
     }
 
     override fun getData(): List<NewsItem> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return newsAdapter.getNewsItems()
     }
 
     override fun getErrorMessage(e: Throwable?, pullToRefresh: Boolean): String {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return "Dummy error message"
     }
 
     override fun onRefresh() {
@@ -63,12 +68,12 @@ class NewsListFragment : NewsView, MvpLceViewStateFragment<SwipeRefreshLayout, L
         val view = inflater.inflate(R.layout.fragment_newsitem_list, container, false)
 
         // Set the adapter
-        if (view is RecyclerView) {
-            with(view) {
-                layoutManager = LinearLayoutManager(context)
-                adapter = newsAdapter
-            }
+        with(view) {
+            list.layoutManager = LinearLayoutManager(context)
+            list.adapter = newsAdapter
         }
+
+
         return view
     }
 
