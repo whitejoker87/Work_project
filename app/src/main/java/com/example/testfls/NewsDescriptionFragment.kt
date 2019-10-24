@@ -1,10 +1,7 @@
 package com.example.testfls
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.testfls.model.NewsItem
 import com.example.testfls.presenter.NewsItemPresenter
@@ -12,7 +9,7 @@ import com.example.testfls.view.NewsItemView
 import com.hannesdorfmann.mosby3.mvp.viewstate.lce.LceViewState
 import com.hannesdorfmann.mosby3.mvp.viewstate.lce.MvpLceViewStateFragment
 import com.hannesdorfmann.mosby3.mvp.viewstate.lce.data.RetainingLceViewState
-import kotlinx.android.synthetic.main.fragment_news_item.*
+import kotlinx.android.synthetic.main.fragment_news_description.*
 
 
 private const val ARG_PARAM1 = "id"
@@ -68,9 +65,17 @@ class NewsItemFragment : NewsItemView, MvpLceViewStateFragment<SwipeRefreshLayou
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_news_item, container, false)
+        return inflater.inflate(R.layout.fragment_news_description, container, false)
     }
 
+    override fun onResume() {
+        super.onResume()
+
+        (activity as MainActivity).setSupportActionBar(toolbar)
+        (activity as MainActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        toolbar.title = "Description"
+
+    }
 
 
     companion object {

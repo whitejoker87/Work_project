@@ -19,5 +19,17 @@ class MainActivity : AppCompatActivity() {
             .addToBackStack(name).commit()
     }
 
+    override fun onBackPressed() {
+        when {
+            supportFragmentManager.backStackEntryCount > 0 -> supportFragmentManager.popBackStack()
+            else -> finish()
+        }
+    }
 
+    override fun onSupportNavigateUp(): Boolean {
+        super.onSupportNavigateUp()
+        onBackPressed()
+        return true
+
+    }
 }
