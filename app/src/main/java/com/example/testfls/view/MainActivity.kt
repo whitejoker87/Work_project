@@ -17,15 +17,15 @@ class MainActivity : AppCompatActivity() {
 
     fun setFragment(fragment: Fragment, name: String) {
         supportFragmentManager.beginTransaction().replace(R.id.fragment_container, fragment)
-            .addToBackStack(null).commit()
+            /*.addToBackStack(null)*/.commit()
     }
 
-    override fun onBackPressed() {
-        when {
-            supportFragmentManager.backStackEntryCount > 1 -> supportFragmentManager.popBackStack()
-            else -> finish()
-        }
-    }
+//    override fun onBackPressed() {
+//        when {
+//            supportFragmentManager.backStackEntryCount > 1 -> supportFragmentManager.popBackStack()
+//            else -> finish()
+//        }
+//    }
 
     override fun onSupportNavigateUp(): Boolean {
         super.onSupportNavigateUp()
