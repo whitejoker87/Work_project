@@ -24,6 +24,10 @@ class NewsListFragment : NewsView,
     private val newsAdapter = NewsItemRecyclerViewAdapter(this)
 
 
+    override fun onStart() {
+        super.onStart()
+    }
+
     override fun createPresenter(): NewsPresenter {
         return NewsPresenter()
     }
@@ -80,6 +84,7 @@ class NewsListFragment : NewsView,
         super.onViewCreated(view, savedInstanceState)
         contentView.setOnRefreshListener(this)
         loadData(false)
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -103,5 +108,9 @@ class NewsListFragment : NewsView,
         toolbar.title = "Rss"
         setHasOptionsMenu(true)
 
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
     }
 }

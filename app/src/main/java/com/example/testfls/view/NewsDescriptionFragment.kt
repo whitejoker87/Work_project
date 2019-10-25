@@ -19,7 +19,7 @@ private const val ARG_PARAM1 = "id"
 class NewsDescriptionFragment : NewsDescriptionView, MvpLceViewStateFragment<SwipeRefreshLayout, NewsItem, NewsDescriptionView, NewsDescriptionPresenter>() {
 
 
-    private var id: Int? = null
+    private var id: Int? = 0
 
     override fun setData(data: NewsItem?) {
         title.text = data!!.title
@@ -72,6 +72,10 @@ class NewsDescriptionFragment : NewsDescriptionView, MvpLceViewStateFragment<Swi
         (activity as MainActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
         toolbar.title = "Description"
 
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
     }
 
     companion object {
