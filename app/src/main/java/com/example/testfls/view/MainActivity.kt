@@ -17,7 +17,7 @@ class MainActivity : AppCompatActivity() {
 
     fun setFragment(fragment: Fragment, name: String) {
         supportFragmentManager.beginTransaction().replace(R.id.fragment_container, fragment)
-            .addToBackStack(name).commit()
+            .addToBackStack(null).commit()
     }
 
     override fun onBackPressed() {

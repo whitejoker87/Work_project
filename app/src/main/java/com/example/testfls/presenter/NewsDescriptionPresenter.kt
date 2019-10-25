@@ -1,5 +1,7 @@
 package com.example.testfls.presenter
 
+import com.example.testfls.model.NewsItem
+import com.example.testfls.model.NewsRepository
 import com.example.testfls.model.Rss
 import com.example.testfls.model.RssProvider
 import com.example.testfls.view.NewsDescriptionView
@@ -9,7 +11,7 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 
 class NewsDescriptionPresenter: MvpBasePresenter<NewsDescriptionView>() {
-    private val provider = RssProvider()
+    private val repository = NewsRepository()
 
     var compositeDisposable = CompositeDisposable()
 
@@ -18,12 +20,12 @@ class NewsDescriptionPresenter: MvpBasePresenter<NewsDescriptionView>() {
         view?.showLoading(pullToRefresh)
 
         compositeDisposable.add(
-            provider.getRss().subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe ({ rss: Rss -> setRss(rss, id)},{ t: Throwable -> setError(t, pullToRefresh)})
+            repository.getRss().subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe ({ news: List<NewsItem> -> setRss(news, id)},{ t: Throwable -> setError(t, pullToRefresh)})
         )
     }
 
-    fun setRss(rss: Rss, id: Int) {
-        view?.setData(rss.channel.items[id])
+    fun setRss(news: List<NewsItem>, id: Int) {
+        view?.setData(news[id])
         view?.showContent()
     }
 
