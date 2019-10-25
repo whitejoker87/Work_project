@@ -2,6 +2,7 @@ package com.example.testfls.view
 
 import android.os.Bundle
 import android.view.*
+import android.webkit.WebViewClient
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.testfls.R
@@ -25,7 +26,14 @@ class NewsDescriptionFragment : NewsDescriptionView, MvpLceViewStateFragment<Swi
         title.text = data!!.title
         author.text = data.author
         date.text = data.pubDate
-        description.text = data.description
+         val webSet = full_new.settings
+//        webSet.javaScriptEnabled = true
+//        webSet.allowFileAccess =true
+//        webSet.loadsImagesAutomatically = true
+        full_new.scrollBarStyle = View.SCROLLBARS_OUTSIDE_OVERLAY
+        full_new.webViewClient = WebViewClient()
+        full_new.loadUrl(data.link)
+        //description.text = data.description
     }
 
     override fun loadData(pullToRefresh: Boolean) {
@@ -41,7 +49,7 @@ class NewsDescriptionFragment : NewsDescriptionView, MvpLceViewStateFragment<Swi
     }
 
     override fun getData(): NewsItem {
-       return NewsItem(title.text.toString(), author.text.toString(), date.text.toString(), description.text.toString())
+       return NewsItem(title.text.toString(), author.text.toString(), date.text.toString(), "")
     }
 
     override fun getErrorMessage(e: Throwable?, pullToRefresh: Boolean): String {

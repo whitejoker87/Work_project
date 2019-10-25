@@ -15,7 +15,7 @@ class MainActivity : AppCompatActivity() {
         setFragment(NewsListFragment(), "list")
     }
 
-    fun showFragment(fragment: Fragment){
+    private fun showFragment(fragment: Fragment){
             supportFragmentManager.beginTransaction().hide(supportFragmentManager.fragments[0]).show(fragment)
 
     }
