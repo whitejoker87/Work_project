@@ -16,7 +16,7 @@ import kotlinx.android.synthetic.main.fragment_news_description.*
 private const val ARG_PARAM1 = "id"
 
 
-class NewsDescriptionFragment : NewsDescriptionView, MvpLceViewStateFragment<ConstraintLayout, NewsItem, NewsDescriptionView, NewsDescriptionPresenter>() {
+class NewsDescriptionFragment : NewsDescriptionView, MvpLceViewStateFragment<SwipeRefreshLayout, NewsItem, NewsDescriptionView, NewsDescriptionPresenter>() {
 
 
     private var id: Int? = null
