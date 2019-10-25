@@ -1,11 +1,12 @@
-package com.example.testfls
+package com.example.testfls.view
 
 import android.os.Bundle
 import android.view.*
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.example.testfls.R
 import com.example.testfls.model.NewsItem
-import com.example.testfls.presenter.NewsItemPresenter
-import com.example.testfls.view.NewsItemView
+import com.example.testfls.presenter.NewsDescriptionPresenter
 import com.hannesdorfmann.mosby3.mvp.viewstate.lce.LceViewState
 import com.hannesdorfmann.mosby3.mvp.viewstate.lce.MvpLceViewStateFragment
 import com.hannesdorfmann.mosby3.mvp.viewstate.lce.data.RetainingLceViewState
@@ -15,7 +16,7 @@ import kotlinx.android.synthetic.main.fragment_news_description.*
 private const val ARG_PARAM1 = "id"
 
 
-class NewsItemFragment : NewsItemView, MvpLceViewStateFragment<SwipeRefreshLayout, NewsItem, NewsItemView, NewsItemPresenter>(), SwipeRefreshLayout.OnRefreshListener {
+class NewsDescriptionFragment : NewsDescriptionView, MvpLceViewStateFragment<ConstraintLayout, NewsItem, NewsDescriptionView, NewsDescriptionPresenter>() {
 
 
     private var id: Int? = null
@@ -31,11 +32,11 @@ class NewsItemFragment : NewsItemView, MvpLceViewStateFragment<SwipeRefreshLayou
         presenter.getNewsItem(pullToRefresh, id!!)
     }
 
-    override fun createPresenter(): NewsItemPresenter {
-        return NewsItemPresenter()
+    override fun createPresenter(): NewsDescriptionPresenter {
+        return NewsDescriptionPresenter()
     }
 
-    override fun createViewState(): LceViewState<NewsItem, NewsItemView> {
+    override fun createViewState(): LceViewState<NewsItem, NewsDescriptionView> {
         return RetainingLceViewState()
     }
 
@@ -44,11 +45,7 @@ class NewsItemFragment : NewsItemView, MvpLceViewStateFragment<SwipeRefreshLayou
     }
 
     override fun getErrorMessage(e: Throwable?, pullToRefresh: Boolean): String {
-        return "Dummy error message"
-    }
-
-    override fun onRefresh() {
-        loadData(true)
+        return "Description error message $e"
     }
 
 
@@ -77,11 +74,10 @@ class NewsItemFragment : NewsItemView, MvpLceViewStateFragment<SwipeRefreshLayou
 
     }
 
-
     companion object {
         @JvmStatic
         fun newInstance(id: Int) =
-            NewsItemFragment().apply {
+            NewsDescriptionFragment().apply {
                 arguments = Bundle().apply {
                     putInt(ARG_PARAM1, id)
                 }

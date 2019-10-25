@@ -1,19 +1,13 @@
-package com.example.testfls
+package com.example.testfls.view
 
-import android.content.Context
-import android.graphics.Color
 import android.os.Bundle
 import android.view.*
-import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import androidx.appcompat.app.AppCompatActivity
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.example.testfls.R
 
 import com.example.testfls.model.NewsItem
 import com.example.testfls.presenter.NewsPresenter
-import com.example.testfls.view.NewsView
 import com.hannesdorfmann.mosby3.mvp.viewstate.lce.LceViewState
 import com.hannesdorfmann.mosby3.mvp.viewstate.lce.MvpLceViewStateFragment
 import com.hannesdorfmann.mosby3.mvp.viewstate.lce.data.RetainingLceViewState
@@ -41,6 +35,7 @@ class NewsListFragment : NewsView,
 
     override fun setData(data: List<NewsItem>?) {
         newsAdapter.setNewsItems(data!!)
+        contentView.isRefreshing = false
     }
 
     override fun loadData(pullToRefresh: Boolean) {
@@ -52,7 +47,8 @@ class NewsListFragment : NewsView,
     }
 
     override fun getErrorMessage(e: Throwable?, pullToRefresh: Boolean): String {
-        return "Dummy error message"
+        contentView.isRefreshing = false
+        return "News list error message $e"
     }
 
 
@@ -61,7 +57,7 @@ class NewsListFragment : NewsView,
     }
 
     override fun onItemClick(pos: Int) {
-        (activity as MainActivity).setFragment(NewsItemFragment.newInstance(pos), "newsItem")
+        (activity as MainActivity).setFragment(NewsDescriptionFragment.newInstance(pos), "newsItem")
     }
 
 
@@ -80,13 +76,19 @@ class NewsListFragment : NewsView,
         return view
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
-        inflater?.inflate(R.menu.news_list_menu, menu)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        contentView.setOnRefreshListener(this)
+        loadData(false)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.news_list_menu, menu)
         super.onCreateOptionsMenu(menu, inflater)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        if (item?.itemId == R.id.action_refresh) {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.action_refresh) {
             loadData(true)
         }
         return super.onOptionsItemSelected(item)

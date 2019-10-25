@@ -1,8 +1,9 @@
-package com.example.testfls
+package com.example.testfls.view
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.fragment.app.Fragment
+import com.example.testfls.R
 
 
 class MainActivity : AppCompatActivity() {
@@ -21,7 +22,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         when {
-            supportFragmentManager.backStackEntryCount > 0 -> supportFragmentManager.popBackStack()
+            supportFragmentManager.backStackEntryCount > 1 -> supportFragmentManager.popBackStack()
             else -> finish()
         }
     }

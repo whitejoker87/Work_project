@@ -1,5 +1,7 @@
 package com.example.testfls.model
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import org.simpleframework.xml.Element
 import org.simpleframework.xml.ElementList
 import org.simpleframework.xml.Path
@@ -22,10 +24,10 @@ data class Channel (
     var items: List<NewsItem>
 )
 
-
+@Entity(tableName = "news_items")
 @Root(name = "item", strict = false)
 data class NewsItem (
-    @field:Element(name = "title") @param:Element(name = "title")var title: String,
+    @PrimaryKey @field:Element(name = "title") @param:Element(name = "title")var title: String,
     @field:Element(name = "description") @param:Element(name = "description")var description: String,
     @field:Element(name = "pubDate") @param:Element(name = "pubDate")var pubDate:String,
     @field:Element(name = "author") @param:Element(name = "author")var author:String
