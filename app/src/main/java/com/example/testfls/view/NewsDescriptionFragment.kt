@@ -34,6 +34,7 @@ class NewsDescriptionFragment : NewsDescriptionView, MvpLceViewStateFragment<Swi
         full_new.webViewClient = WebViewClient()
         full_new.loadUrl(data.link)
         //description.text = data.description
+        toolbar.title = data.title
     }
 
     override fun loadData(pullToRefresh: Boolean) {
@@ -53,7 +54,7 @@ class NewsDescriptionFragment : NewsDescriptionView, MvpLceViewStateFragment<Swi
     }
 
     override fun getErrorMessage(e: Throwable?, pullToRefresh: Boolean): String {
-        return "Description error message $e"
+        return "$resources.getText(R.string.description_error_message) $e"
     }
 
 
@@ -78,12 +79,8 @@ class NewsDescriptionFragment : NewsDescriptionView, MvpLceViewStateFragment<Swi
 
         (activity as MainActivity).setSupportActionBar(toolbar)
         (activity as MainActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        toolbar.title = "Description"
 
-    }
 
-    override fun onDestroy() {
-        super.onDestroy()
     }
 
     companion object {

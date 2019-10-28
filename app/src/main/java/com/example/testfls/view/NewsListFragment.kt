@@ -52,7 +52,7 @@ class NewsListFragment : NewsView,
 
     override fun getErrorMessage(e: Throwable?, pullToRefresh: Boolean): String {
         contentView.isRefreshing = false
-        return "News list error message $e"
+        return "$resources.getText(R.string.list_news_error_message) $e"
     }
 
 

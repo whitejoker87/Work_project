@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">TestFLS</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="description_error_message">Ошибка на экране новости</string>
+    <string name="list_news_error_message">Ошибка на экране списка новостей</string>
 </resources>
