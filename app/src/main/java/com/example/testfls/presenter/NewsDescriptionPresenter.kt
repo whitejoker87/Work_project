@@ -2,9 +2,6 @@ package com.example.testfls.presenter
 
 import com.example.testfls.App
 import com.example.testfls.model.NewsItem
-import com.example.testfls.model.NewsRepository
-import com.example.testfls.model.Rss
-import com.example.testfls.model.RssProvider
 import com.example.testfls.view.NewsDescriptionView
 import com.hannesdorfmann.mosby3.mvp.MvpBasePresenter
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -15,17 +12,21 @@ class NewsDescriptionPresenter: MvpBasePresenter<NewsDescriptionView>() {
 
     var compositeDisposable = CompositeDisposable()
 
-    fun getNewsItem(pullToRefresh: Boolean, id: Int) {
+    fun getNewsItem(pullToRefresh: Boolean, id: Int, title: String) {
 
         view?.showLoading(pullToRefresh)
 
         compositeDisposable.add(
-            App.repository!!.getRss().subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe ({ news: List<NewsItem> -> setRss(news, id)},{ t: Throwable -> setError(t, pullToRefresh)})
+            App.repository!!
+                .getNewsItem(title)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe ({ newsItem: NewsItem -> setRss(newsItem)},{ t: Throwable -> setError(t, pullToRefresh)})
         )
     }
 
-    fun setRss(news: List<NewsItem>, id: Int) {
-        view?.setData(news[id])
+    fun setRss(newsItem: NewsItem) {
+        view?.setData(newsItem)
         view?.showContent()
     }
 

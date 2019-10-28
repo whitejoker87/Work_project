@@ -11,11 +11,17 @@ import io.reactivex.Single
 @Dao
 interface NewsDao {
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
-    fun insertAll(items: List<NewsItem>): Completable
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertAll(items: List<NewsItem>)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertOne(item: NewsItem)
 
     @Query("SELECT * from news_items")
     fun getNews(): Single<List<NewsItem>>
+
+    @Query("SELECT * from news_items WHERE title = :newsTitle")
+    fun getNewsItem(newsTitle: String): Single<List<NewsItem>>
 
 
 }

@@ -28,7 +28,6 @@ data class Channel (
 @Root(name = "item", strict = false)
 data class NewsItem (
     @PrimaryKey @field:Element(name = "title") @param:Element(name = "title")var title: String,
-    //@field:Element(name = "description") @param:Element(name = "description")var description: String,
     @field:Element(name = "pubDate") @param:Element(name = "pubDate")var pubDate:String,
     @field:Element(name = "author") @param:Element(name = "author")var author:String,
     @field:Element(name = "link") @param:Element(name = "link")var link:String

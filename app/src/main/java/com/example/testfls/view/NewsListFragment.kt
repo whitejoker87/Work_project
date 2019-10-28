@@ -24,10 +24,6 @@ class NewsListFragment : NewsView,
     private val newsAdapter = NewsItemRecyclerViewAdapter(this)
 
 
-    override fun onStart() {
-        super.onStart()
-    }
-
     override fun createPresenter(): NewsPresenter {
         return NewsPresenter()
     }
@@ -60,8 +56,8 @@ class NewsListFragment : NewsView,
         loadData(true)
     }
 
-    override fun onItemClick(pos: Int) {
-        (activity as MainActivity).setFragment(NewsDescriptionFragment.newInstance(pos), "newsItem")
+    override fun onItemClick(pos: Int, title: String) {
+        (activity as MainActivity).setFragment(NewsDescriptionFragment.newInstance(pos, title), "newsItem")
     }
 
 
@@ -99,18 +95,12 @@ class NewsListFragment : NewsView,
         return super.onOptionsItemSelected(item)
     }
 
-
-
     override fun onResume() {
         super.onResume()
 
         (activity as MainActivity).setSupportActionBar(toolbar)
-        toolbar.title = "Rss"
+        toolbar.title = resources.getText(R.string.news_list_title)
         setHasOptionsMenu(true)
 
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
     }
 }

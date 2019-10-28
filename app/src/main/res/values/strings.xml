@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">TestFLS</string>
-
+    <string name="news_list_title">Список новостей</string>
     <string name="description_error_message">Ошибка на экране новости</string>
     <string name="list_news_error_message">Ошибка на экране списка новостей</string>
+    <string name="loading">Загрузка...</string>
 </resources>

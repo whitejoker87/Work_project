@@ -18,7 +18,11 @@ class NewsPresenter : MvpBasePresenter<NewsView> () {
         view?.showLoading(pullToRefresh)
 
         compositeDisposable.add(
-            App.repository!!.getRss().subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe ({ news: List<NewsItem> -> setRss(news)},{ t: Throwable -> setError(t, pullToRefresh)})
+            App.repository!!
+                .getListNews(pullToRefresh)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe ({ news: List<NewsItem> -> setRss(news)},{ t: Throwable -> setError(t, pullToRefresh)})
         )
     }
 

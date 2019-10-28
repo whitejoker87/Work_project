@@ -15,30 +15,33 @@ import kotlinx.android.synthetic.main.fragment_news_description.*
 
 
 private const val ARG_PARAM1 = "id"
+private const val ARG_PARAM2 = "title"
 
 
 class NewsDescriptionFragment : NewsDescriptionView, MvpLceViewStateFragment<SwipeRefreshLayout, NewsItem, NewsDescriptionView, NewsDescriptionPresenter>() {
 
 
     private var id: Int? = 0
+    private var title: String? = ""
+    private lateinit var newsItem: NewsItem
 
     override fun setData(data: NewsItem?) {
-        title.text = data!!.title
-        author.text = data.author
-        date.text = data.pubDate
+
+        newsItem = data!!
+
          val webSet = full_new.settings
 //        webSet.javaScriptEnabled = true
 //        webSet.allowFileAccess =true
 //        webSet.loadsImagesAutomatically = true
         full_new.scrollBarStyle = View.SCROLLBARS_OUTSIDE_OVERLAY
         full_new.webViewClient = WebViewClient()
-        full_new.loadUrl(data.link)
-        //description.text = data.description
-        toolbar.title = data.title
+        full_new.loadUrl(newsItem.link)
+
+        toolbar.title = newsItem.title
     }
 
     override fun loadData(pullToRefresh: Boolean) {
-        presenter.getNewsItem(pullToRefresh, id!!)
+        presenter.getNewsItem(pullToRefresh, id!!, title!!)
     }
 
     override fun createPresenter(): NewsDescriptionPresenter {
@@ -50,7 +53,7 @@ class NewsDescriptionFragment : NewsDescriptionView, MvpLceViewStateFragment<Swi
     }
 
     override fun getData(): NewsItem {
-       return NewsItem(title.text.toString(), author.text.toString(), date.text.toString(), "")
+       return NewsItem(newsItem.title, newsItem.author, newsItem.pubDate, newsItem.link)
     }
 
     override fun getErrorMessage(e: Throwable?, pullToRefresh: Boolean): String {
@@ -63,6 +66,7 @@ class NewsDescriptionFragment : NewsDescriptionView, MvpLceViewStateFragment<Swi
         super.onCreate(savedInstanceState)
         arguments?.let {
             id = it.getInt(ARG_PARAM1)
+            title = it.getString(ARG_PARAM2)
         }
     }
 
@@ -85,10 +89,11 @@ class NewsDescriptionFragment : NewsDescriptionView, MvpLceViewStateFragment<Swi
 
     companion object {
         @JvmStatic
-        fun newInstance(id: Int) =
+        fun newInstance(id: Int, title: String) =
             NewsDescriptionFragment().apply {
                 arguments = Bundle().apply {
                     putInt(ARG_PARAM1, id)
+                    putString(ARG_PARAM2, title)
                 }
             }
     }

@@ -48,7 +48,7 @@ class NewsItemRecyclerViewAdapter(val listener: NewsItemRecyclerViewAdapterCallb
         val mAuthorView: TextView = mView.author
 
         override fun onClick(v: View?) {
-            listener.onItemClick(adapterPosition)
+            listener.onItemClick(adapterPosition, newsList[adapterPosition].title)
         }
 
         override fun toString(): String {
@@ -57,7 +57,7 @@ class NewsItemRecyclerViewAdapter(val listener: NewsItemRecyclerViewAdapterCallb
     }
 
     interface NewsItemRecyclerViewAdapterCallback {
-        fun onItemClick(pos: Int)
+        fun onItemClick(pos: Int, title: String)
     }
 
 }
