@@ -5,26 +5,20 @@ import androidx.room.Room
 import com.example.testfls.model.NewsDao
 import com.example.testfls.model.NewsRepository
 import com.example.testfls.model.NewsRoomDatabase
+import com.example.testfls.model.RssProvider
 
 class App: Application() {
-
-//    private var database: NewsRoomDatabase? = null//
-
 
     override fun onCreate() {
         super.onCreate()
 
-//        instance = this//
-//        database = Room.databaseBuilder(this, NewsRoomDatabase::class.java, "database").build()//
-
-        dao = NewsRoomDatabase.getDatabase(applicationContext).newsDao()
-        repository = NewsRepository()
+        val dao = NewsRoomDatabase.getDatabase(applicationContext).newsDao()
+        val provider = RssProvider()
+        repository = NewsRepository(dao,provider)
 
    }
     companion object {
-//        var instance: App? = null//
-        var dao: NewsDao? = null
-            private set
         var repository: NewsRepository? = null
+            private set
     }
 }

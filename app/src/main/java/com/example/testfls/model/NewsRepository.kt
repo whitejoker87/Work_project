@@ -6,13 +6,9 @@ import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
-class NewsRepository {
+class NewsRepository(private val newsDao: NewsDao, private val provider: RssProvider) {
 
 //    private var LOG_TAG = "LOG_TAG"
-
-    private var newsDao: NewsDao = App.dao!!
-    private val provider = RssProvider()
-
 
     fun getListNews(isRefresh: Boolean): Single<List<NewsItem>> {
         return newsDao.getNews()

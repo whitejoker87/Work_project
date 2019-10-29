@@ -6,25 +6,29 @@ import androidx.fragment.app.Fragment
 import com.example.testfls.R
 
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), NewsListFragment.OnListItemClickInFragmentListener {
+
+
+    private val listTag = "list"
+    private val itemTag = "newsItem"
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        setFragment(NewsListFragment(), "list")
+        if (savedInstanceState == null) setFragment(NewsListFragment(), listTag)
     }
 
     private fun showFragment(fragment: Fragment){
-            supportFragmentManager.beginTransaction().hide(supportFragmentManager.fragments[0]).show(fragment)
+            supportFragmentManager.beginTransaction().hide(supportFragmentManager.fragments.last()).show(fragment).commit()
 
     }
 
 
 
-    fun setFragment(fragment: Fragment, name: String) {
-        val fragmentReady = supportFragmentManager.findFragmentByTag(name)
-        if (fragment == fragmentReady) showFragment(fragment)
+    private fun setFragment(fragment: Fragment, name: String) {
+        val fragmentReady: Fragment? = supportFragmentManager.findFragmentByTag(name)
+        if (fragmentReady != null && fragment.javaClass == fragmentReady.javaClass) showFragment(fragmentReady)
         else {
             val transaction = supportFragmentManager.beginTransaction()
             if (supportFragmentManager.fragments.isNotEmpty()) {
@@ -38,7 +42,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         when {
-            supportFragmentManager.fragments.last() == supportFragmentManager.findFragmentByTag("newsItem") -> setFragment(NewsListFragment(), "list")
+            supportFragmentManager.fragments.last().javaClass == supportFragmentManager.findFragmentByTag(itemTag)?.javaClass -> setFragment(NewsListFragment(), listTag)
 //            supportFragmentManager.backStackEntryCount > 1 -> supportFragmentManager.popBackStack()
             else -> finish()
         }
@@ -49,5 +53,9 @@ class MainActivity : AppCompatActivity() {
         onBackPressed()
         return true
 
+    }
+
+    override fun onListItemClick(fragment: Fragment, name: String) {
+        setFragment(fragment, name)
     }
 }

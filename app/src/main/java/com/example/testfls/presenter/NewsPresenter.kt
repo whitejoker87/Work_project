@@ -8,7 +8,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 
-class NewsPresenter : MvpBasePresenter<NewsView> () {
+class NewsPresenter(private val repository: NewsRepository) : MvpBasePresenter<NewsView> () {
 
 
     var compositeDisposable = CompositeDisposable()
@@ -18,7 +18,7 @@ class NewsPresenter : MvpBasePresenter<NewsView> () {
         view?.showLoading(pullToRefresh)
 
         compositeDisposable.add(
-            App.repository!!
+            repository
                 .getListNews(pullToRefresh)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

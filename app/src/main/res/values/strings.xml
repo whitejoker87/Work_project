@@ -4,4 +4,5 @@
     <string name="description_error_message">Ошибка на экране новости</string>
     <string name="list_news_error_message">Ошибка на экране списка новостей</string>
     <string name="loading">Загрузка...</string>
+    <string name="eroor_implements_listener"> must implement OnFragmentInteractionListener</string>
 </resources>

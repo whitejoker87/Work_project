@@ -5,6 +5,7 @@ import android.view.*
 import android.webkit.WebViewClient
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.example.testfls.App
 import com.example.testfls.R
 import com.example.testfls.model.NewsItem
 import com.example.testfls.presenter.NewsDescriptionPresenter
@@ -43,7 +44,7 @@ class NewsDescriptionFragment : NewsDescriptionView, MvpLceViewStateFragment<Swi
     }
 
     override fun createPresenter(): NewsDescriptionPresenter {
-        return NewsDescriptionPresenter()
+        return NewsDescriptionPresenter(App.repository!!)
     }
 
     override fun createViewState(): LceViewState<NewsItem, NewsDescriptionView> {
@@ -55,7 +56,7 @@ class NewsDescriptionFragment : NewsDescriptionView, MvpLceViewStateFragment<Swi
     }
 
     override fun getErrorMessage(e: Throwable?, pullToRefresh: Boolean): String {
-        return "$resources.getText(R.string.description_error_message) $e"
+        return resources.getText(R.string.description_error_message).toString() + " $e"
     }
 
 
