@@ -12,7 +12,7 @@ class NewsDescriptionPresenter: MvpBasePresenter<NewsDescriptionView>() {
 
     var compositeDisposable = CompositeDisposable()
 
-    fun getNewsItem(pullToRefresh: Boolean, id: Int, title: String) {
+    fun getNewsItem(pullToRefresh: Boolean, title: String) {
 
         view?.showLoading(pullToRefresh)
 

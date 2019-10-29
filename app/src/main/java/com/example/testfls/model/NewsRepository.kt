@@ -34,15 +34,15 @@ class NewsRepository {
 
 
     private fun putNewsInBase(newsItems: List<NewsItem>): Observable<List<NewsItem>> {
-        return Observable.fromCallable { insertOne(newsItems) }
+        return Observable.fromCallable { insertAll(newsItems) }
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
     }
 
-    private fun insertOne(items: List<NewsItem>): List<NewsItem> {
-        newsDao.insertOne(items[0])
-        return items
-    }
+//    private fun insertOne(items: List<NewsItem>): List<NewsItem> {
+//        newsDao.insertOne(items[0])
+//        return items
+//    }
 
     private fun insertAll(newsItems: List<NewsItem>): List<NewsItem>  {
         newsDao.insertAll(newsItems)
@@ -70,10 +70,15 @@ class NewsRepository {
 
     private fun getOneItemFromListFromApi(news: List<NewsItem>, title: String): Observable<NewsItem> {
         var currentItem: NewsItem? = null
-        news.forEach {
-            if (it.title == title) currentItem = it
-            
+        run loop@{
+            news.forEach {
+                if (it.title == title) {
+                    currentItem = it
+                    return@loop
+                }
+            }
         }
+
         return Observable.just(currentItem)
     }
 

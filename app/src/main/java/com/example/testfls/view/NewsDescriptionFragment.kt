@@ -14,14 +14,12 @@ import com.hannesdorfmann.mosby3.mvp.viewstate.lce.data.RetainingLceViewState
 import kotlinx.android.synthetic.main.fragment_news_description.*
 
 
-private const val ARG_PARAM1 = "id"
 private const val ARG_PARAM2 = "title"
 
 
 class NewsDescriptionFragment : NewsDescriptionView, MvpLceViewStateFragment<SwipeRefreshLayout, NewsItem, NewsDescriptionView, NewsDescriptionPresenter>() {
 
 
-    private var id: Int? = 0
     private var title: String? = ""
     private lateinit var newsItem: NewsItem
 
@@ -29,7 +27,7 @@ class NewsDescriptionFragment : NewsDescriptionView, MvpLceViewStateFragment<Swi
 
         newsItem = data!!
 
-         val webSet = full_new.settings
+//         val webSet = full_new.settings
 //        webSet.javaScriptEnabled = true
 //        webSet.allowFileAccess =true
 //        webSet.loadsImagesAutomatically = true
@@ -41,7 +39,7 @@ class NewsDescriptionFragment : NewsDescriptionView, MvpLceViewStateFragment<Swi
     }
 
     override fun loadData(pullToRefresh: Boolean) {
-        presenter.getNewsItem(pullToRefresh, id!!, title!!)
+        presenter.getNewsItem(pullToRefresh, title!!)
     }
 
     override fun createPresenter(): NewsDescriptionPresenter {
@@ -65,7 +63,6 @@ class NewsDescriptionFragment : NewsDescriptionView, MvpLceViewStateFragment<Swi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            id = it.getInt(ARG_PARAM1)
             title = it.getString(ARG_PARAM2)
         }
     }
@@ -89,10 +86,9 @@ class NewsDescriptionFragment : NewsDescriptionView, MvpLceViewStateFragment<Swi
 
     companion object {
         @JvmStatic
-        fun newInstance(id: Int, title: String) =
+        fun newInstance(title: String) =
             NewsDescriptionFragment().apply {
                 arguments = Bundle().apply {
-                    putInt(ARG_PARAM1, id)
                     putString(ARG_PARAM2, title)
                 }
             }

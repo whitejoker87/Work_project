@@ -57,7 +57,7 @@ class NewsListFragment : NewsView,
     }
 
     override fun onItemClick(pos: Int, title: String) {
-        (activity as MainActivity).setFragment(NewsDescriptionFragment.newInstance(pos, title), "newsItem")
+        (activity as MainActivity).setFragment(NewsDescriptionFragment.newInstance(title), "newsItem")
     }
 
 
