@@ -27,7 +27,7 @@ class NewsListFragment : NewsView,
     private val newsAdapter = NewsItemRecyclerViewAdapter(this)
     private var listenerListItemClickIn: OnListItemClickInFragmentListener? = null
 
-    val itemTag = "newsItem"
+    private val itemTag = "newsItem"
 
 
     override fun createPresenter(): NewsPresenter {
@@ -64,7 +64,6 @@ class NewsListFragment : NewsView,
 
     override fun onItemClick(pos: Int, title: String) {
         listenerListItemClickIn?.onListItemClick(NewsDescriptionFragment.newInstance(title), itemTag)
-        //(activity as MainActivity).setFragment(NewsDescriptionFragment.newInstance(title), (activity as MainActivity).itemTag)
     }
 
     override fun onAttach(context: Context) {
