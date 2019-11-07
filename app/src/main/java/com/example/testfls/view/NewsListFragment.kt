@@ -8,6 +8,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.testfls.App
 import com.example.testfls.R
+import com.example.testfls.di.ContextModule
+import com.example.testfls.di.DaggerRepositoryComponent
+import com.example.testfls.di.RepositoryComponent
+import com.example.testfls.di.RepositoryModule
 
 import com.example.testfls.model.NewsItem
 import com.example.testfls.presenter.NewsPresenter
@@ -23,6 +27,8 @@ class NewsListFragment : NewsView,
     SwipeRefreshLayout.OnRefreshListener,
     NewsItemRecyclerViewAdapter.NewsItemRecyclerViewAdapterCallback {
 
+    private lateinit var  repositoryComponent: RepositoryComponent
+
 
     private val newsAdapter = NewsItemRecyclerViewAdapter(this)
     private var listenerListItemClickIn: OnListItemClickInFragmentListener? = null
@@ -31,7 +37,12 @@ class NewsListFragment : NewsView,
 
 
     override fun createPresenter(): NewsPresenter {
-        return NewsPresenter(App.repository!!)
+        repositoryComponent = DaggerRepositoryComponent.builder().repositoryModule(
+            RepositoryModule()
+        ).contextModule(
+            ContextModule(activity!!)
+        ).build()
+        return NewsPresenter(repositoryComponent.getRepository())
     }
 
 
@@ -98,6 +109,7 @@ class NewsListFragment : NewsView,
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         contentView.setOnRefreshListener(this)
         loadData(false)
 

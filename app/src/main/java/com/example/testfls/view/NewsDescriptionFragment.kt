@@ -7,6 +7,10 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.testfls.App
 import com.example.testfls.R
+import com.example.testfls.di.ContextModule
+import com.example.testfls.di.DaggerRepositoryComponent
+import com.example.testfls.di.RepositoryComponent
+import com.example.testfls.di.RepositoryModule
 import com.example.testfls.model.NewsItem
 import com.example.testfls.presenter.NewsDescriptionPresenter
 import com.hannesdorfmann.mosby3.mvp.viewstate.lce.LceViewState
@@ -23,6 +27,8 @@ class NewsDescriptionFragment : NewsDescriptionView, MvpLceViewStateFragment<Swi
 
     private var title: String? = ""
     private lateinit var newsItem: NewsItem
+
+    private lateinit var repositoryComponent: RepositoryComponent
 
     override fun setData(data: NewsItem?) {
 
@@ -44,7 +50,12 @@ class NewsDescriptionFragment : NewsDescriptionView, MvpLceViewStateFragment<Swi
     }
 
     override fun createPresenter(): NewsDescriptionPresenter {
-        return NewsDescriptionPresenter(App.repository!!)
+        repositoryComponent = DaggerRepositoryComponent.builder().repositoryModule(
+            RepositoryModule()
+        ).contextModule(
+            ContextModule(activity!!)
+        ).build()
+        return NewsDescriptionPresenter(repositoryComponent.getRepository())
     }
 
     override fun createViewState(): LceViewState<NewsItem, NewsDescriptionView> {
