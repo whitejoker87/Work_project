@@ -1,22 +1,23 @@
 package com.example.testfls.view
 
+import android.content.Context
 import android.os.Bundle
 import android.view.*
 import android.webkit.WebViewClient
-import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.fragment.app.Fragment
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.testfls.App
 import com.example.testfls.R
-import com.example.testfls.di.ContextModule
-import com.example.testfls.di.DaggerRepositoryComponent
-import com.example.testfls.di.RepositoryComponent
-import com.example.testfls.di.RepositoryModule
 import com.example.testfls.model.NewsItem
+import com.example.testfls.model.NewsRepository
 import com.example.testfls.presenter.NewsDescriptionPresenter
 import com.hannesdorfmann.mosby3.mvp.viewstate.lce.LceViewState
 import com.hannesdorfmann.mosby3.mvp.viewstate.lce.MvpLceViewStateFragment
 import com.hannesdorfmann.mosby3.mvp.viewstate.lce.data.RetainingLceViewState
+import dagger.android.AndroidInjection
+import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.fragment_news_description.*
+import javax.inject.Inject
 
 
 private const val ARG_PARAM2 = "title"
@@ -28,7 +29,8 @@ class NewsDescriptionFragment : NewsDescriptionView, MvpLceViewStateFragment<Swi
     private var title: String? = ""
     private lateinit var newsItem: NewsItem
 
-    private lateinit var repositoryComponent: RepositoryComponent
+    @Inject
+    lateinit var  repository: NewsRepository
 
     override fun setData(data: NewsItem?) {
 
@@ -50,12 +52,7 @@ class NewsDescriptionFragment : NewsDescriptionView, MvpLceViewStateFragment<Swi
     }
 
     override fun createPresenter(): NewsDescriptionPresenter {
-        repositoryComponent = DaggerRepositoryComponent.builder().repositoryModule(
-            RepositoryModule()
-        ).contextModule(
-            ContextModule(activity!!)
-        ).build()
-        return NewsDescriptionPresenter(repositoryComponent.getRepository())
+        return NewsDescriptionPresenter(repository)
     }
 
     override fun createViewState(): LceViewState<NewsItem, NewsDescriptionView> {
@@ -70,7 +67,10 @@ class NewsDescriptionFragment : NewsDescriptionView, MvpLceViewStateFragment<Swi
         return resources.getText(R.string.description_error_message).toString() + " $e"
     }
 
-
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        AndroidSupportInjection.inject(this)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

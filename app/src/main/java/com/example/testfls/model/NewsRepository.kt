@@ -6,7 +6,7 @@ import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
-class NewsRepository(private val newsDao: NewsDao, private val provider: RssProvider) {
+class  NewsRepository(private val newsDao: NewsDao, private val provider: RssProvider) {
 
 //    private var LOG_TAG = "LOG_TAG"
 

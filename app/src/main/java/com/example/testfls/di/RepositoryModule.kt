@@ -2,15 +2,12 @@ package com.example.testfls.di
 
 import android.content.Context
 import androidx.room.Room
-import com.example.testfls.model.NewsDao
-import com.example.testfls.model.NewsRepository
-import com.example.testfls.model.NewsRoomDatabase
-import com.example.testfls.model.RssProvider
+import com.example.testfls.model.*
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
 
-@Module(includes = [ContextModule::class])
+@Module
 class RepositoryModule {
 
     @Provides
@@ -19,15 +16,7 @@ class RepositoryModule {
 
     @Singleton
     @Provides
-    fun dao(database: NewsRoomDatabase): NewsDao = database.newsDao()
-
-    @Singleton
-    @Provides
-    fun database(context: Context): NewsRoomDatabase =
-        Room.databaseBuilder(context, NewsRoomDatabase::class.java, "news_database").build()
-
-    @Singleton
-    @Provides
-    fun provider(): RssProvider = RssProvider()
+    fun provider(api: RssApi): RssProvider =
+        RssProvider(api)
 
 }

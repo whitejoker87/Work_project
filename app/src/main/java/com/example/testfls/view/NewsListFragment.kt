@@ -8,18 +8,17 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.testfls.App
 import com.example.testfls.R
-import com.example.testfls.di.ContextModule
-import com.example.testfls.di.DaggerRepositoryComponent
-import com.example.testfls.di.RepositoryComponent
-import com.example.testfls.di.RepositoryModule
 
 import com.example.testfls.model.NewsItem
+import com.example.testfls.model.NewsRepository
 import com.example.testfls.presenter.NewsPresenter
 import com.hannesdorfmann.mosby3.mvp.viewstate.lce.LceViewState
 import com.hannesdorfmann.mosby3.mvp.viewstate.lce.MvpLceViewStateFragment
 import com.hannesdorfmann.mosby3.mvp.viewstate.lce.data.RetainingLceViewState
+import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.fragment_newsitem_list.*
 import kotlinx.android.synthetic.main.fragment_newsitem_list.view.*
+import javax.inject.Inject
 
 
 class NewsListFragment : NewsView,
@@ -27,7 +26,8 @@ class NewsListFragment : NewsView,
     SwipeRefreshLayout.OnRefreshListener,
     NewsItemRecyclerViewAdapter.NewsItemRecyclerViewAdapterCallback {
 
-    private lateinit var  repositoryComponent: RepositoryComponent
+    @Inject
+    lateinit var  repository: NewsRepository
 
 
     private val newsAdapter = NewsItemRecyclerViewAdapter(this)
@@ -37,12 +37,7 @@ class NewsListFragment : NewsView,
 
 
     override fun createPresenter(): NewsPresenter {
-        repositoryComponent = DaggerRepositoryComponent.builder().repositoryModule(
-            RepositoryModule()
-        ).contextModule(
-            ContextModule(activity!!)
-        ).build()
-        return NewsPresenter(repositoryComponent.getRepository())
+        return NewsPresenter(repository)
     }
 
 
@@ -79,6 +74,9 @@ class NewsListFragment : NewsView,
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
+
+        AndroidSupportInjection.inject(this)
+
         if (context is OnListItemClickInFragmentListener) {
             listenerListItemClickIn = context
         } else {
