@@ -2,13 +2,8 @@ package com.example.testfls.di
 
 import android.app.Application
 import com.example.testfls.App
-import com.example.testfls.model.NewsRepository
-import com.example.testfls.model.RssApi
-import com.example.testfls.view.NewsDescriptionFragment
-import com.example.testfls.view.NewsListFragment
 import dagger.BindsInstance
 import dagger.Component
-import dagger.android.AndroidInjectionModule
 import dagger.android.support.AndroidSupportInjectionModule
 import javax.inject.Singleton
 
@@ -16,11 +11,14 @@ import javax.inject.Singleton
 @Component(
     modules = [
         AndroidSupportInjectionModule::class,
+//        AndroidInjectionModule::class,
         RepositoryModule::class,
         ApiModule::class,
         DbModule::class,
         ActivityModule::class,
-        FragmentModule::class])
+        FragmentModule::class
+    ]
+)
 interface AppComponent {
     @Component.Builder
     interface Builder {

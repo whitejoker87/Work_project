@@ -1,6 +1,5 @@
 package com.example.testfls.model
 
-import com.example.testfls.App
 import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers

@@ -4,9 +4,7 @@ import android.content.Context
 import android.os.Bundle
 import android.view.*
 import android.webkit.WebViewClient
-import androidx.fragment.app.Fragment
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import com.example.testfls.App
 import com.example.testfls.R
 import com.example.testfls.model.NewsItem
 import com.example.testfls.model.NewsRepository
@@ -14,7 +12,6 @@ import com.example.testfls.presenter.NewsDescriptionPresenter
 import com.hannesdorfmann.mosby3.mvp.viewstate.lce.LceViewState
 import com.hannesdorfmann.mosby3.mvp.viewstate.lce.MvpLceViewStateFragment
 import com.hannesdorfmann.mosby3.mvp.viewstate.lce.data.RetainingLceViewState
-import dagger.android.AndroidInjection
 import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.fragment_news_description.*
 import javax.inject.Inject

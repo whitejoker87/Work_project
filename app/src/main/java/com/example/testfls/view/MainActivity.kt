@@ -23,7 +23,9 @@ class MainActivity : AppCompatActivity(), NewsListFragment.OnListItemClickInFrag
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
         AndroidInjection.inject(this)
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         if (savedInstanceState == null) setFragment(NewsListFragment(), listTag)
