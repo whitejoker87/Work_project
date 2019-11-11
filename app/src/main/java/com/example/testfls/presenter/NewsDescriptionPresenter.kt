@@ -1,6 +1,5 @@
 package com.example.testfls.presenter
 
-import com.example.testfls.App
 import com.example.testfls.model.NewsItem
 import com.example.testfls.model.NewsRepository
 import com.example.testfls.view.NewsDescriptionView
@@ -12,15 +11,20 @@ import javax.inject.Inject
 
 class NewsDescriptionPresenter @Inject constructor(private val repository: NewsRepository): MvpBasePresenter<NewsDescriptionView>() {
 
+    lateinit var item: NewsItem
+        private set
+
+    var title: String? = ""
+
     var compositeDisposable = CompositeDisposable()
 
-    fun getNewsItem(pullToRefresh: Boolean, title: String) {
+    fun getNewsItem(pullToRefresh: Boolean) {
 
         view?.showLoading(pullToRefresh)
 
         compositeDisposable.add(
             repository
-                .getNewsItem(title)
+                .getNewsItem(title!!)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe ({ newsItem: NewsItem -> setRss(newsItem)},{ t: Throwable -> setError(t, pullToRefresh)})
@@ -28,6 +32,7 @@ class NewsDescriptionPresenter @Inject constructor(private val repository: NewsR
     }
 
     fun setRss(newsItem: NewsItem) {
+        item = newsItem
         view?.setData(newsItem)
         view?.showContent()
     }

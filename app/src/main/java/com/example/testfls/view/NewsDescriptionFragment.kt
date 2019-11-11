@@ -7,7 +7,6 @@ import android.webkit.WebViewClient
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.testfls.R
 import com.example.testfls.model.NewsItem
-import com.example.testfls.model.NewsRepository
 import com.example.testfls.presenter.NewsDescriptionPresenter
 import com.hannesdorfmann.mosby3.mvp.viewstate.lce.LceViewState
 import com.hannesdorfmann.mosby3.mvp.viewstate.lce.MvpLceViewStateFragment
@@ -22,16 +21,10 @@ private const val ARG_PARAM2 = "title"
 
 class NewsDescriptionFragment : NewsDescriptionView, MvpLceViewStateFragment<SwipeRefreshLayout, NewsItem, NewsDescriptionView, NewsDescriptionPresenter>() {
 
-
-    private var title: String? = ""
-    private lateinit var newsItem: NewsItem
-
     @Inject
     lateinit var  newsDescriptionPresenter: NewsDescriptionPresenter
 
     override fun setData(data: NewsItem?) {
-
-        newsItem = data!!
 
 //         val webSet = full_new.settings
 //        webSet.javaScriptEnabled = true
@@ -39,13 +32,13 @@ class NewsDescriptionFragment : NewsDescriptionView, MvpLceViewStateFragment<Swi
 //        webSet.loadsImagesAutomatically = true
         full_new.scrollBarStyle = View.SCROLLBARS_OUTSIDE_OVERLAY
         full_new.webViewClient = WebViewClient()
-        full_new.loadUrl(newsItem.link)
+        full_new.loadUrl(data?.link)
 
-        toolbar.title = newsItem.title
+        toolbar.title = data?.title
     }
 
     override fun loadData(pullToRefresh: Boolean) {
-        presenter.getNewsItem(pullToRefresh, title!!)
+        presenter.getNewsItem(pullToRefresh)
     }
 
     override fun createPresenter(): NewsDescriptionPresenter =
@@ -55,7 +48,7 @@ class NewsDescriptionFragment : NewsDescriptionView, MvpLceViewStateFragment<Swi
         RetainingLceViewState()
 
     override fun getData(): NewsItem =
-        NewsItem(newsItem.title, newsItem.author, newsItem.pubDate, newsItem.link)
+        presenter.item
 
     override fun getErrorMessage(e: Throwable?, pullToRefresh: Boolean): String =
         resources.getText(R.string.description_error_message).toString() + " $e"
@@ -68,7 +61,7 @@ class NewsDescriptionFragment : NewsDescriptionView, MvpLceViewStateFragment<Swi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            title = it.getString(ARG_PARAM2)
+            presenter.title = it.getString(ARG_PARAM2)
         }
     }
 

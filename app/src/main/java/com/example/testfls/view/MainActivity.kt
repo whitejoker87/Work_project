@@ -32,11 +32,6 @@ class MainActivity : AppCompatActivity(), NewsListFragment.OnListItemClickInFrag
         if (savedInstanceState == null) setFragment(NewsListFragment(), listTag)
     }
 
-    private fun showFragment(fragment: Fragment) {
-//            supportFragmentManager.beginTransaction().hide(supportFragmentManager.fragments.last()).show(fragment).commit()
-
-    }
-
 
     private fun setFragment(fragment: Fragment, name: String) {
         val transaction = supportFragmentManager.beginTransaction()
@@ -56,32 +51,6 @@ class MainActivity : AppCompatActivity(), NewsListFragment.OnListItemClickInFrag
                 .addToBackStack(null)
                 .commit()
         }
-
-//        when (name){
-//            listTag -> {
-//                if (fragmentLast != null) {
-//                    transaction
-//                        /*.hide(fragmentLast)*/
-//                        .replace(R.id.fragment_container, fragment, name)
-//                        .addToBackStack(null)
-//                        .commit()
-//                    //supportFragmentManager.beginTransaction().remove(fragmentLast).commit()
-//                } else {
-//                    transaction.add(R.id.fragment_container, fragment, name)
-//                        .addToBackStack(null)
-//                        .commit()
-//                }
-//            }
-//            itemTag -> if (fragmentLast != null){
-//                transaction
-//                    //.hide(fragmentLast)
-//                    .replace(R.id.fragment_container, fragment, name)
-//                    .addToBackStack(null)
-//                    .commit()
-//            }
-//        }
-
-
     }
 
 
@@ -90,7 +59,7 @@ class MainActivity : AppCompatActivity(), NewsListFragment.OnListItemClickInFrag
             supportFragmentManager.fragments.last().javaClass == supportFragmentManager.findFragmentByTag(
                 itemTag
             )?.javaClass -> setFragment(NewsListFragment(), listTag)
-//            supportFragmentManager.backStackEntryCount > 1 -> supportFragmentManager.popBackStack()
+
             else -> finish()
         }
     }

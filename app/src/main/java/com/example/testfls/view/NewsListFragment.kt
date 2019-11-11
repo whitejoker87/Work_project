@@ -6,10 +6,8 @@ import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import com.example.testfls.App
 import com.example.testfls.R
 import com.example.testfls.model.NewsItem
-import com.example.testfls.model.NewsRepository
 import com.example.testfls.presenter.NewsPresenter
 import com.hannesdorfmann.mosby3.mvp.viewstate.lce.LceViewState
 import com.hannesdorfmann.mosby3.mvp.viewstate.lce.MvpLceViewStateFragment

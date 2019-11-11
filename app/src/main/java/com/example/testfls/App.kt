@@ -24,9 +24,4 @@ class App: Application(), HasAndroidInjector {
 
 
    }
-//    companion object {
-//
-//        var appComponent: AppComponent? = null
-//            private set
-//    }
 }
