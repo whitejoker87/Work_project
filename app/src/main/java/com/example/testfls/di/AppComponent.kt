@@ -30,6 +30,7 @@ interface AppComponent {
 //    fun getApi(): RssApi
 //    fun inject(newsListFragment: NewsListFragment)
 //    fun inject(newsDescriptionFragment: NewsDescriptionFragment)
+//    fun getNewsPresenter(): NewsPresenter
 
     fun inject(app: App)
 }

@@ -8,8 +8,9 @@ import com.hannesdorfmann.mosby3.mvp.MvpBasePresenter
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
+import javax.inject.Inject
 
-class NewsDescriptionPresenter(private val repository: NewsRepository): MvpBasePresenter<NewsDescriptionView>() {
+class NewsDescriptionPresenter @Inject constructor(private val repository: NewsRepository): MvpBasePresenter<NewsDescriptionView>() {
 
     var compositeDisposable = CompositeDisposable()
 

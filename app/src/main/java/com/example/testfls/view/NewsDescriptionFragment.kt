@@ -27,7 +27,7 @@ class NewsDescriptionFragment : NewsDescriptionView, MvpLceViewStateFragment<Swi
     private lateinit var newsItem: NewsItem
 
     @Inject
-    lateinit var  repository: NewsRepository
+    lateinit var  newsDescriptionPresenter: NewsDescriptionPresenter
 
     override fun setData(data: NewsItem?) {
 
@@ -48,21 +48,17 @@ class NewsDescriptionFragment : NewsDescriptionView, MvpLceViewStateFragment<Swi
         presenter.getNewsItem(pullToRefresh, title!!)
     }
 
-    override fun createPresenter(): NewsDescriptionPresenter {
-        return NewsDescriptionPresenter(repository)
-    }
+    override fun createPresenter(): NewsDescriptionPresenter =
+        newsDescriptionPresenter
 
-    override fun createViewState(): LceViewState<NewsItem, NewsDescriptionView> {
-        return RetainingLceViewState()
-    }
+    override fun createViewState(): LceViewState<NewsItem, NewsDescriptionView> =
+        RetainingLceViewState()
 
-    override fun getData(): NewsItem {
-       return NewsItem(newsItem.title, newsItem.author, newsItem.pubDate, newsItem.link)
-    }
+    override fun getData(): NewsItem =
+        NewsItem(newsItem.title, newsItem.author, newsItem.pubDate, newsItem.link)
 
-    override fun getErrorMessage(e: Throwable?, pullToRefresh: Boolean): String {
-        return resources.getText(R.string.description_error_message).toString() + " $e"
-    }
+    override fun getErrorMessage(e: Throwable?, pullToRefresh: Boolean): String =
+        resources.getText(R.string.description_error_message).toString() + " $e"
 
     override fun onAttach(context: Context) {
         super.onAttach(context)

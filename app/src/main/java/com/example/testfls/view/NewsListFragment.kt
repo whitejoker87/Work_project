@@ -6,6 +6,7 @@ import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.example.testfls.App
 import com.example.testfls.R
 import com.example.testfls.model.NewsItem
 import com.example.testfls.model.NewsRepository
@@ -25,7 +26,7 @@ class NewsListFragment : NewsView,
     NewsItemRecyclerViewAdapter.NewsItemRecyclerViewAdapterCallback {
 
     @Inject
-    lateinit var  repository: NewsRepository
+    lateinit var newsPresenter: NewsPresenter
 
     private val newsAdapter = NewsItemRecyclerViewAdapter(this)
     private var listenerListItemClickIn: OnListItemClickInFragmentListener? = null
@@ -33,9 +34,7 @@ class NewsListFragment : NewsView,
     private val itemTag = "newsItem"
 
 
-    override fun createPresenter(): NewsPresenter {
-        return NewsPresenter(repository)
-    }
+    override fun createPresenter(): NewsPresenter = newsPresenter
 
 
     override fun createViewState(): LceViewState<List<NewsItem>, NewsView> {

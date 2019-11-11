@@ -1,14 +1,14 @@
 package com.example.testfls.presenter
 
-import com.example.testfls.App
 import com.example.testfls.model.*
 import com.example.testfls.view.NewsView
 import com.hannesdorfmann.mosby3.mvp.MvpBasePresenter
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
+import javax.inject.Inject
 
-class NewsPresenter(private val repository: NewsRepository) : MvpBasePresenter<NewsView> () {
+class NewsPresenter @Inject constructor(private val repository: NewsRepository) : MvpBasePresenter<NewsView> () {
 
 
     var compositeDisposable = CompositeDisposable()

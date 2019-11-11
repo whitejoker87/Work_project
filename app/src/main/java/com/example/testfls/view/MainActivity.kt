@@ -11,7 +11,8 @@ import dagger.android.HasAndroidInjector
 import javax.inject.Inject
 
 
-class MainActivity : AppCompatActivity(), NewsListFragment.OnListItemClickInFragmentListener, HasAndroidInjector {
+class MainActivity : AppCompatActivity(), NewsListFragment.OnListItemClickInFragmentListener,
+    HasAndroidInjector {
 
     @Inject
     lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Any>
@@ -31,30 +32,64 @@ class MainActivity : AppCompatActivity(), NewsListFragment.OnListItemClickInFrag
         if (savedInstanceState == null) setFragment(NewsListFragment(), listTag)
     }
 
-    private fun showFragment(fragment: Fragment){
-            supportFragmentManager.beginTransaction().hide(supportFragmentManager.fragments.last()).show(fragment).commit()
+    private fun showFragment(fragment: Fragment) {
+//            supportFragmentManager.beginTransaction().hide(supportFragmentManager.fragments.last()).show(fragment).commit()
 
     }
 
 
-
     private fun setFragment(fragment: Fragment, name: String) {
-        val fragmentReady: Fragment? = supportFragmentManager.findFragmentByTag(name)
-        if (fragmentReady != null && fragment.javaClass == fragmentReady.javaClass) showFragment(fragmentReady)
-        else {
-            val transaction = supportFragmentManager.beginTransaction()
-            if (supportFragmentManager.fragments.isNotEmpty()) {
-                transaction.hide(supportFragmentManager.fragments.last()).add(R.id.fragment_container, fragment, name).addToBackStack(null).commit()
-            } else {
-                transaction.add(R.id.fragment_container, fragment, name).addToBackStack(null).commit()
-            }
+        val transaction = supportFragmentManager.beginTransaction()
+        var fragmentLast: Fragment? = null
+
+        if (supportFragmentManager.fragments.isNotEmpty()) {
+            fragmentLast = supportFragmentManager.fragments.last()
         }
+
+        if (fragmentLast == null) {
+            transaction.add(R.id.fragment_container, fragment, name)
+                .addToBackStack(null)
+                .commit()
+        } else {
+            transaction
+                .replace(R.id.fragment_container, fragment, name)
+                .addToBackStack(null)
+                .commit()
+        }
+
+//        when (name){
+//            listTag -> {
+//                if (fragmentLast != null) {
+//                    transaction
+//                        /*.hide(fragmentLast)*/
+//                        .replace(R.id.fragment_container, fragment, name)
+//                        .addToBackStack(null)
+//                        .commit()
+//                    //supportFragmentManager.beginTransaction().remove(fragmentLast).commit()
+//                } else {
+//                    transaction.add(R.id.fragment_container, fragment, name)
+//                        .addToBackStack(null)
+//                        .commit()
+//                }
+//            }
+//            itemTag -> if (fragmentLast != null){
+//                transaction
+//                    //.hide(fragmentLast)
+//                    .replace(R.id.fragment_container, fragment, name)
+//                    .addToBackStack(null)
+//                    .commit()
+//            }
+//        }
+
+
     }
 
 
     override fun onBackPressed() {
         when {
-            supportFragmentManager.fragments.last().javaClass == supportFragmentManager.findFragmentByTag(itemTag)?.javaClass -> setFragment(NewsListFragment(), listTag)
+            supportFragmentManager.fragments.last().javaClass == supportFragmentManager.findFragmentByTag(
+                itemTag
+            )?.javaClass -> setFragment(NewsListFragment(), listTag)
 //            supportFragmentManager.backStackEntryCount > 1 -> supportFragmentManager.popBackStack()
             else -> finish()
         }
