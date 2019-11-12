@@ -1,12 +1,9 @@
-package com.example.testfls.di.app
+package com.example.testfls.di
 
 import android.app.Application
 import com.example.testfls.App
-import com.example.testfls.di.*
-import com.example.testfls.presenter.NewsDescriptionPresenter
 import dagger.BindsInstance
 import dagger.Component
-import dagger.android.support.AndroidSupportInjectionModule
 import javax.inject.Singleton
 
 @Singleton
@@ -16,7 +13,6 @@ import javax.inject.Singleton
     ]
 )
 interface AppComponent {
-
     @Component.Builder
     interface Builder {
         @BindsInstance
@@ -27,5 +23,4 @@ interface AppComponent {
 
     fun inject(app: App)
 
-//    val newsDescriptionPresenterFactory: NewsDescriptionPresenter.Factory
 }

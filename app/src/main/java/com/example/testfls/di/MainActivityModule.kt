@@ -6,13 +6,12 @@ import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
 @Module
-abstract class FragmentModule {
-
-
-    @ContributesAndroidInjector
-    abstract fun contributeNewsListFragment(): NewsListFragment
+interface MainActivityModule {
 
     @ContributesAndroidInjector
-    abstract fun contributeNewsDescriptionFragment(): NewsDescriptionFragment
+    fun contributeNewsListFragment(): NewsListFragment
+
+    @ContributesAndroidInjector(modules = [NewsDescriptionFragmentModule::class])
+    fun contributeNewsDescriptionFragment(): NewsDescriptionFragment
 
 }

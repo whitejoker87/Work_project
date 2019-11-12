@@ -6,7 +6,6 @@ import android.view.*
 import android.webkit.WebViewClient
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.testfls.R
-//import com.example.testfls.component
 import com.example.testfls.model.NewsItem
 import com.example.testfls.presenter.NewsDescriptionPresenter
 import com.hannesdorfmann.mosby3.mvp.viewstate.lce.LceViewState
@@ -24,12 +23,6 @@ class NewsDescriptionFragment : NewsDescriptionView, MvpLceViewStateFragment<Swi
 
     @Inject
     lateinit var newsDescriptionPresenter: NewsDescriptionPresenter
-
-//    private val newsDescriptionPresenter by lazy {
-//        arguments?.let {
-//            component.newsDescriptionPresenterFactory.create(it.getString(ARG_PARAM2))
-//        }
-//    }
 
     override fun setData(data: NewsItem?) {
 

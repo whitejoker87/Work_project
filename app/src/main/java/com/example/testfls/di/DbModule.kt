@@ -1,4 +1,4 @@
-package com.example.testfls.di.app
+package com.example.testfls.di
 
 import android.app.Application
 import androidx.room.Room
