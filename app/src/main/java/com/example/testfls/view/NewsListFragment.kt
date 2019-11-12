@@ -67,9 +67,8 @@ class NewsListFragment : NewsView,
     }
 
     override fun onAttach(context: Context) {
-        super.onAttach(context)
-
         AndroidSupportInjection.inject(this)
+        super.onAttach(context)
 
         if (context is OnListItemClickInFragmentListener) {
             listenerListItemClickIn = context

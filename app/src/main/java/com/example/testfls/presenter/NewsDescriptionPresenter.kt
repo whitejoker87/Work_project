@@ -4,17 +4,22 @@ import com.example.testfls.model.NewsItem
 import com.example.testfls.model.NewsRepository
 import com.example.testfls.view.NewsDescriptionView
 import com.hannesdorfmann.mosby3.mvp.MvpBasePresenter
+import com.squareup.inject.assisted.Assisted
+import com.squareup.inject.assisted.AssistedInject
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
-class NewsDescriptionPresenter @Inject constructor(private val repository: NewsRepository): MvpBasePresenter<NewsDescriptionView>() {
+class NewsDescriptionPresenter /*@Inject constructor*/(private val repository: NewsRepository, private val title: String?): MvpBasePresenter<NewsDescriptionView>() {
+
+//    @AssistedInject.Factory
+//    interface Factory {
+//        fun create(title: String?): NewsDescriptionPresenter
+//    }
 
     lateinit var item: NewsItem
         private set
-
-    var title: String? = ""
 
     var compositeDisposable = CompositeDisposable()
 
@@ -24,7 +29,7 @@ class NewsDescriptionPresenter @Inject constructor(private val repository: NewsR
 
         compositeDisposable.add(
             repository
-                .getNewsItem(title!!)
+                .getNewsItem(title?:"")
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe ({ newsItem: NewsItem -> setRss(newsItem)},{ t: Throwable -> setError(t, pullToRefresh)})

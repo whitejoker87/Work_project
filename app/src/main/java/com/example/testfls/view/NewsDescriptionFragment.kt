@@ -6,6 +6,7 @@ import android.view.*
 import android.webkit.WebViewClient
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.testfls.R
+//import com.example.testfls.component
 import com.example.testfls.model.NewsItem
 import com.example.testfls.presenter.NewsDescriptionPresenter
 import com.hannesdorfmann.mosby3.mvp.viewstate.lce.LceViewState
@@ -22,7 +23,13 @@ private const val ARG_PARAM2 = "title"
 class NewsDescriptionFragment : NewsDescriptionView, MvpLceViewStateFragment<SwipeRefreshLayout, NewsItem, NewsDescriptionView, NewsDescriptionPresenter>() {
 
     @Inject
-    lateinit var  newsDescriptionPresenter: NewsDescriptionPresenter
+    lateinit var newsDescriptionPresenter: NewsDescriptionPresenter
+
+//    private val newsDescriptionPresenter by lazy {
+//        arguments?.let {
+//            component.newsDescriptionPresenterFactory.create(it.getString(ARG_PARAM2))
+//        }
+//    }
 
     override fun setData(data: NewsItem?) {
 
@@ -42,7 +49,7 @@ class NewsDescriptionFragment : NewsDescriptionView, MvpLceViewStateFragment<Swi
     }
 
     override fun createPresenter(): NewsDescriptionPresenter =
-        newsDescriptionPresenter
+        newsDescriptionPresenter!!
 
     override fun createViewState(): LceViewState<NewsItem, NewsDescriptionView> =
         RetainingLceViewState()
@@ -54,16 +61,16 @@ class NewsDescriptionFragment : NewsDescriptionView, MvpLceViewStateFragment<Swi
         resources.getText(R.string.description_error_message).toString() + " $e"
 
     override fun onAttach(context: Context) {
-        super.onAttach(context)
         AndroidSupportInjection.inject(this)
+        super.onAttach(context)
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            presenter.title = it.getString(ARG_PARAM2)
-        }
-    }
+//    override fun onCreate(savedInstanceState: Bundle?) {
+//        super.onCreate(savedInstanceState)
+//        arguments?.let {
+//            presenter.title = it.getString(ARG_PARAM2)
+//        }
+//    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

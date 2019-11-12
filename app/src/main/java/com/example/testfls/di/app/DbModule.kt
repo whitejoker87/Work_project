@@ -1,4 +1,4 @@
-package com.example.testfls.di
+package com.example.testfls.di.app
 
 import android.app.Application
 import androidx.room.Room
@@ -19,5 +19,6 @@ class DbModule {
     @Provides
     fun provideDatabase(application: Application): NewsRoomDatabase =
         Room.databaseBuilder(application, NewsRoomDatabase::class.java, "news_database").build()
+//        NewsRoomDatabase.getDatabase(application)
 
 }

@@ -8,8 +8,10 @@ import dagger.android.ContributesAndroidInjector
 @Module
 abstract class FragmentModule {
 
+
     @ContributesAndroidInjector
     abstract fun contributeNewsListFragment(): NewsListFragment
+
     @ContributesAndroidInjector
     abstract fun contributeNewsDescriptionFragment(): NewsDescriptionFragment
 

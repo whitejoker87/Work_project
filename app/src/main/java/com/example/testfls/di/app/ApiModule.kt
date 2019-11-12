@@ -1,4 +1,4 @@
-package com.example.testfls.di
+package com.example.testfls.di.app
 
 import com.example.testfls.model.RssApi
 import dagger.Module
