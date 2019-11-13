@@ -16,7 +16,7 @@ import kotlinx.android.synthetic.main.fragment_news_description.*
 import javax.inject.Inject
 
 
-private const val ARG_PARAM2 = "title"
+const val ARG_TITLE = "title"
 
 
 class NewsDescriptionFragment : NewsDescriptionView, MvpLceViewStateFragment<SwipeRefreshLayout, NewsItem, NewsDescriptionView, NewsDescriptionPresenter>() {
@@ -79,7 +79,7 @@ class NewsDescriptionFragment : NewsDescriptionView, MvpLceViewStateFragment<Swi
         fun newInstance(title: String) =
             NewsDescriptionFragment().apply {
                 arguments = Bundle().apply {
-                    putString(ARG_PARAM2, title)
+                    putString(ARG_TITLE, title)
                 }
             }
     }

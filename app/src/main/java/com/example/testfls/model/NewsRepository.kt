@@ -4,6 +4,8 @@ import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import java.text.SimpleDateFormat
+import java.util.*
 
 class  NewsRepository(private val newsDao: NewsDao, private val provider: RssProvider) {
 
@@ -18,14 +20,26 @@ class  NewsRepository(private val newsDao: NewsDao, private val provider: RssPro
                     Single.fromObservable(getListNewsFromApi())
                 } else {
                     Single.just(news)
-//                            .map { newsFromBase -> newsFromBase.reversed() }
                 }
             }
     }
 
     private fun getListNewsFromApi(): Observable<List<NewsItem>> {
         return provider.getRss()
-            .flatMap { rss -> putNewsInBase(rss.channel.items) }
+            .flatMap { rss ->  convertNews(rss.channel.items)}
+            .flatMap { news -> putNewsInBase(news) }
+    }
+
+    private fun convertNews(newsFromApi: List<NewsItemApi>): Observable<List<NewsItem>> {
+        return Observable.just(newsFromApi.map { newsItemApi ->  dateStrToDateMillis(newsItemApi)})
+    }
+
+    private fun dateStrToDateMillis(newsItemApi: NewsItemApi): NewsItem {
+        return NewsItem(newsItemApi.title, longDateTime(newsItemApi.pubDate)?:0, newsItemApi.author ,newsItemApi.link)
+    }
+
+    private val longDateTime: (String) -> Long? = { it ->
+        SimpleDateFormat("EEE, dd LLL yyyy HH:mm:ss XX", Locale.getDefault()).parse(it)?.date?.toLong()
     }
 
 
@@ -60,7 +74,8 @@ class  NewsRepository(private val newsDao: NewsDao, private val provider: RssPro
 
     private fun getNewsItemFromApi(title: String): Observable<NewsItem> {
         return provider.getRss()
-            .flatMap { rss -> putNewsInBase(rss.channel.items) }
+            .flatMap { rss ->  convertNews(rss.channel.items)}
+            .flatMap { news -> putNewsInBase(news) }
             .flatMap { news ->  getOneItemFromListFromApi(news, title)}
     }
 

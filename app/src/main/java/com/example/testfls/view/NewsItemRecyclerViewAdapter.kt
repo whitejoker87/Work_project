@@ -10,6 +10,9 @@ import com.example.testfls.R
 import com.example.testfls.model.NewsItem
 
 import kotlinx.android.synthetic.main.fragment_newsitem.view.*
+import java.text.SimpleDateFormat
+import java.util.*
+import java.util.concurrent.TimeUnit
 
 class NewsItemRecyclerViewAdapter(val listener: NewsItemRecyclerViewAdapterCallback) : RecyclerView.Adapter<NewsItemRecyclerViewAdapter.ViewHolder>() {
 
@@ -31,12 +34,22 @@ class NewsItemRecyclerViewAdapter(val listener: NewsItemRecyclerViewAdapterCallb
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = newsList[position]
         holder.mTitleView.text = item.title
-        holder.mTimeView.text = item.pubDate
+        holder.mTimeView.text = dateMillsToDateStr(item.pubDate)
         holder.mAuthorView.text = item.author
 
     }
 
     override fun getItemCount(): Int = newsList.size
+
+
+    private fun dateMillsToDateStr(dateMills: Long): String {
+        return strDateTime(dateMills)?:""
+    }
+
+    private val strDateTime: (Long) -> String? = {
+        SimpleDateFormat("EEE, dd LLL yyyy HH:mm:ss", Locale.getDefault()).format(Date(it))
+    }
+
 
     inner class ViewHolder(val mView: View, val listener: NewsItemRecyclerViewAdapterCallback) : RecyclerView.ViewHolder(mView), View.OnClickListener {
         init {
