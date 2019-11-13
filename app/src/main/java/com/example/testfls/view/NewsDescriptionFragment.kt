@@ -42,7 +42,7 @@ class NewsDescriptionFragment : NewsDescriptionView, MvpLceViewStateFragment<Swi
     }
 
     override fun createPresenter(): NewsDescriptionPresenter =
-        newsDescriptionPresenter!!
+        newsDescriptionPresenter
 
     override fun createViewState(): LceViewState<NewsItem, NewsDescriptionView> =
         RetainingLceViewState()
@@ -58,18 +58,10 @@ class NewsDescriptionFragment : NewsDescriptionView, MvpLceViewStateFragment<Swi
         super.onAttach(context)
     }
 
-//    override fun onCreate(savedInstanceState: Bundle?) {
-//        super.onCreate(savedInstanceState)
-//        arguments?.let {
-//            presenter.title = it.getString(ARG_PARAM2)
-//        }
-//    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_news_description, container, false)
     }
 

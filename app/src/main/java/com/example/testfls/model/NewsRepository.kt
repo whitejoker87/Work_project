@@ -18,6 +18,7 @@ class  NewsRepository(private val newsDao: NewsDao, private val provider: RssPro
                     Single.fromObservable(getListNewsFromApi())
                 } else {
                     Single.just(news)
+//                            .map { newsFromBase -> newsFromBase.reversed() }
                 }
             }
     }
