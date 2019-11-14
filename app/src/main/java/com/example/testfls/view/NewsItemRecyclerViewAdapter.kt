@@ -10,16 +10,19 @@ import com.example.testfls.R
 import com.example.testfls.model.NewsItem
 
 import kotlinx.android.synthetic.main.fragment_newsitem.view.*
+import org.threeten.bp.DateTimeUtils
+import org.threeten.bp.OffsetDateTime
+import org.threeten.bp.format.DateTimeFormatter
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
 
-class NewsItemRecyclerViewAdapter(val listener: NewsItemRecyclerViewAdapterCallback) : RecyclerView.Adapter<NewsItemRecyclerViewAdapter.ViewHolder>() {
+class NewsItemRecyclerViewAdapter(private val listener: NewsItemRecyclerViewAdapterCallback) : RecyclerView.Adapter<NewsItemRecyclerViewAdapter.ViewHolder>() {
 
     private var newsList: List<NewsItem> = listOf()
 
     fun setNewsItems(news: List<NewsItem>) {
-        newsList = news
+        newsList = sortNews(news)
         notifyDataSetChanged()
     }
 
@@ -47,8 +50,15 @@ class NewsItemRecyclerViewAdapter(val listener: NewsItemRecyclerViewAdapterCallb
     }
 
     private val strDateTime: (Long) -> String? = {
-        SimpleDateFormat("EEE, dd LLL yyyy HH:mm:ss", Locale.getDefault()).format(Date(it))
+//        SimpleDateFormat("EEE, dd LLL yyyy HH:mm:ss", Locale.getDefault()).format(Date(it))
+        DateTimeUtils.toInstant(Date(it))
+            .atOffset(OffsetDateTime.now().offset)
+            .format(DateTimeFormatter.ofPattern("EEE, dd LLL yyyy HH:mm:ss", Locale.ROOT))
+            .toString()
     }
+
+    private fun sortNews(news: List<NewsItem>): List<NewsItem> =
+        news.sortedWith(compareByDescending { it.pubDate })
 
 
     inner class ViewHolder(val mView: View, val listener: NewsItemRecyclerViewAdapterCallback) : RecyclerView.ViewHolder(mView), View.OnClickListener {

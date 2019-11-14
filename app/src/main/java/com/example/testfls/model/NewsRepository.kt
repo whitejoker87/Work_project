@@ -4,6 +4,8 @@ import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import org.threeten.bp.OffsetDateTime
+import org.threeten.bp.format.DateTimeFormatter
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -39,7 +41,8 @@ class  NewsRepository(private val newsDao: NewsDao, private val provider: RssPro
     }
 
     private val longDateTime: (String) -> Long? = { it ->
-        SimpleDateFormat("EEE, dd LLL yyyy HH:mm:ss XX", Locale.getDefault()).parse(it)?.date?.toLong()
+//        SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss Z", Locale.getDefault()).parse(it)?.time
+        OffsetDateTime.parse(it, DateTimeFormatter.ofPattern("EEE, dd MMM yyyy HH:mm:ss Z", Locale.ROOT)).toInstant().toEpochMilli()
     }
 
 
