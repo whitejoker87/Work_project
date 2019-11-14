@@ -4,12 +4,13 @@ import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import org.threeten.bp.OffsetDateTime
-import org.threeten.bp.format.DateTimeFormatter
 import java.text.SimpleDateFormat
 import java.util.*
 
 class  NewsRepository(private val newsDao: NewsDao, private val provider: RssProvider) {
+
+    private val strToMillsPattern = "EEE, dd MMM yyyy HH:mm:ss Z"
+    private val millsIfNull = 0L
 
 //    private var LOG_TAG = "LOG_TAG"
 
@@ -33,17 +34,13 @@ class  NewsRepository(private val newsDao: NewsDao, private val provider: RssPro
     }
 
     private fun convertNews(newsFromApi: List<NewsItemApi>): Observable<List<NewsItem>> {
-        return Observable.just(newsFromApi.map { newsItemApi ->  dateStrToDateMillis(newsItemApi)})
+        return Observable.just(newsFromApi.map { newsItemApi ->  NewsItem(newsItemApi.title, strToLongDateTime(newsItemApi.pubDate), newsItemApi.author ,newsItemApi.link)})
     }
 
-    private fun dateStrToDateMillis(newsItemApi: NewsItemApi): NewsItem {
-        return NewsItem(newsItemApi.title, longDateTime(newsItemApi.pubDate)?:0, newsItemApi.author ,newsItemApi.link)
-    }
 
-    private val longDateTime: (String) -> Long? = { it ->
-//        SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss Z", Locale.getDefault()).parse(it)?.time
-        OffsetDateTime.parse(it, DateTimeFormatter.ofPattern("EEE, dd MMM yyyy HH:mm:ss Z", Locale.ROOT)).toInstant().toEpochMilli()
-    }
+    private fun strToLongDateTime (strDateTime: String):  Long =
+        SimpleDateFormat(strToMillsPattern, Locale.ROOT).parse(strDateTime)?.time ?: millsIfNull
+
 
 
     private fun putNewsInBase(newsItems: List<NewsItem>): Observable<List<NewsItem>> {

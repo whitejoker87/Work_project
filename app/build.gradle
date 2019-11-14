@@ -94,5 +94,5 @@ dependencies {
 //    compileOnly 'com.squareup.inject:assisted-inject-annotations-dagger2:0.5.1'
 //    kapt 'com.squareup.inject:assisted-inject-processor-dagger2:0.5.1'
 
-    implementation 'com.jakewharton.threetenabp:threetenabp:1.2.1'
+//    implementation 'com.jakewharton.threetenabp:threetenabp:1.2.1'
 }
