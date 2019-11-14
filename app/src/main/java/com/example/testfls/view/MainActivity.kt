@@ -75,3 +75,5 @@ class MainActivity : AppCompatActivity(), NewsListFragment.OnListItemClickInFrag
         setFragment(fragment, name)
     }
 }
+
+

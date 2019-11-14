@@ -1,7 +1,6 @@
 package com.example.testfls.presenter
 
 import com.example.testfls.model.*
-import com.example.testfls.view.NewsView
 import com.hannesdorfmann.mosby3.mvp.MvpBasePresenter
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable

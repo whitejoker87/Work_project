@@ -10,7 +10,8 @@ import dagger.android.support.AndroidSupportInjectionModule
 //        AndroidInjectionModule::class,
     RepositoryModule::class,
     ApiModule::class,
-    DbModule::class
+    DbModule::class,
+    ViewModelModule::class
 ])
 interface AppModule {
 

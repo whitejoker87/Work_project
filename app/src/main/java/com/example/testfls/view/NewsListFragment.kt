@@ -4,27 +4,32 @@ import android.content.Context
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.testfls.R
+import com.example.testfls.di.utils.injectViewModel
 import com.example.testfls.model.NewsItem
-import com.example.testfls.presenter.NewsPresenter
-import com.hannesdorfmann.mosby3.mvp.viewstate.lce.LceViewState
-import com.hannesdorfmann.mosby3.mvp.viewstate.lce.MvpLceViewStateFragment
-import com.hannesdorfmann.mosby3.mvp.viewstate.lce.data.RetainingLceViewState
+import com.example.testfls.viewmodel.MainViewModel
+import com.example.testfls.viewmodel.NewsListViewModel
+import com.example.testfls.viewmodel.ViewModelFactory
 import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.fragment_newsitem_list.*
 import kotlinx.android.synthetic.main.fragment_newsitem_list.view.*
 import javax.inject.Inject
 
 
-class NewsListFragment : NewsView,
-    MvpLceViewStateFragment<SwipeRefreshLayout, List<NewsItem>, NewsView, NewsPresenter>(),
+class NewsListFragment : Fragment(),
     SwipeRefreshLayout.OnRefreshListener,
     NewsItemRecyclerViewAdapter.NewsItemRecyclerViewAdapterCallback {
 
     @Inject
-    lateinit var newsPresenter: NewsPresenter
+    lateinit var viewModelFactory: ViewModelProvider.Factory
+    lateinit var newsListViewModel: NewsListViewModel
+    lateinit var mainViewModel: MainViewModel
+
 
     private val newsAdapter = NewsItemRecyclerViewAdapter(this)
     private var listenerListItemClickIn: OnListItemClickInFragmentListener? = null
@@ -32,38 +37,28 @@ class NewsListFragment : NewsView,
     private val itemTag = "newsItem"
 
 
-    override fun createPresenter(): NewsPresenter = newsPresenter
-
-
-    override fun createViewState(): LceViewState<List<NewsItem>, NewsView> {
-        return RetainingLceViewState()
+    private fun loadData(pullToRefresh: Boolean) {
+        newsListViewModel.setRefresh(pullToRefresh)
+        newsListViewModel.getRss()
     }
 
-    override fun setData(data: List<NewsItem>?) {
-        newsAdapter.setNewsItems(data!!)
-        contentView.isRefreshing = false
-    }
-
-    override fun loadData(pullToRefresh: Boolean) {
-        presenter.getRss(pullToRefresh)
-    }
-
-    override fun getData(): List<NewsItem> {
-        return newsAdapter.getNewsItems()
-    }
-
-    override fun getErrorMessage(e: Throwable?, pullToRefresh: Boolean): String {
-        contentView.isRefreshing = false
-        return resources.getText(R.string.list_news_error_message).toString() + " $e"
-    }
-
+//    override fun getErrorMessage(e: Throwable?, pullToRefresh: Boolean): String {
+//        contentView.isRefreshing = false
+//        return resources.getText(R.string.list_news_error_message).toString() + " $e"
+//    }
 
     override fun onRefresh() {
-        loadData(true)
+//        loadData(true)
     }
 
     override fun onItemClick(pos: Int, title: String) {
-        listenerListItemClickIn?.onListItemClick(NewsDescriptionFragment.newInstance(title), itemTag)
+//        listenerListItemClickIn?.onListItemClick(NewsDescriptionFragment.newInstance(title), itemTag)
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        newsListViewModel = injectViewModel(viewModelFactory)
+        mainViewModel = requireActivity().injectViewModel(viewModelFactory)
     }
 
     override fun onAttach(context: Context) {
@@ -103,6 +98,12 @@ class NewsListFragment : NewsView,
 
         contentView.setOnRefreshListener(this)
         loadData(false)
+
+        newsListViewModel.getListNews().observe(viewLifecycleOwner, Observer {
+            newsAdapter.setNewsItems(it)
+            contentView.isRefreshing = false
+            newsListViewModel.setRefresh(false)
+        })
 
     }
 
