@@ -9,7 +9,8 @@ import javax.inject.Inject
 
 class App: Application(), HasAndroidInjector {
 
-    @Inject lateinit var dispatchingAndroidInjector : DispatchingAndroidInjector<Any>
+    @Inject
+    lateinit var dispatchingAndroidInjector : DispatchingAndroidInjector<Any>
 
     override fun androidInjector(): AndroidInjector<Any>? = dispatchingAndroidInjector
 

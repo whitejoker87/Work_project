@@ -22,7 +22,7 @@ class NewsItemRecyclerViewAdapter(private val listener: NewsItemRecyclerViewAdap
         notifyDataSetChanged()
     }
 
-    fun getNewsItems(): List<NewsItem> = newsList
+//    fun getNewsItems(): List<NewsItem> = newsList
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -55,7 +55,7 @@ class NewsItemRecyclerViewAdapter(private val listener: NewsItemRecyclerViewAdap
         val mAuthorView: TextView = mView.author
 
         override fun onClick(v: View?) {
-            listener.onItemClick(adapterPosition, newsList[adapterPosition].title)
+            listener.onItemClick(newsList[adapterPosition].title)
         }
 
         override fun toString(): String {
@@ -64,7 +64,7 @@ class NewsItemRecyclerViewAdapter(private val listener: NewsItemRecyclerViewAdap
     }
 
     interface NewsItemRecyclerViewAdapterCallback {
-        fun onItemClick(pos: Int, title: String)
+        fun onItemClick(title: String)
     }
 
 }

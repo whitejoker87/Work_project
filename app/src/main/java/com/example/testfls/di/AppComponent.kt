@@ -4,12 +4,24 @@ import android.app.Application
 import com.example.testfls.App
 import dagger.BindsInstance
 import dagger.Component
+import dagger.android.AndroidInjectionModule
+import dagger.android.support.AndroidSupportInjectionModule
 import javax.inject.Singleton
 
 @Singleton
 @Component(
     modules = [
-        AppModule::class
+        AndroidSupportInjectionModule::class,
+        AndroidInjectionModule::class,
+
+        ActivityBindingModule::class,
+        FragmentBindingsModule::class,
+//        NewsDescriptionFragmentModule::class,
+
+        RepositoryModule::class,
+        ApiModule::class,
+        DbModule::class,
+        ViewModelModule::class
     ]
 )
 interface AppComponent {

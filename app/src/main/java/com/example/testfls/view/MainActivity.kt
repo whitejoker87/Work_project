@@ -3,16 +3,24 @@ package com.example.testfls.view
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import com.example.testfls.R
+import com.example.testfls.di.utils.injectViewModel
+//import com.example.testfls.viewmodel.MainViewModel
 import dagger.android.AndroidInjection
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
+import dagger.android.support.DaggerAppCompatActivity
 import javax.inject.Inject
 
 
-class MainActivity : AppCompatActivity(), NewsListFragment.OnListItemClickInFragmentListener,
+class MainActivity : DaggerAppCompatActivity(), NewsListFragment.OnListItemClickInFragmentListener,
     HasAndroidInjector {
+
+//    @Inject
+//    lateinit var viewModelFactory: ViewModelProvider.Factory
+//    lateinit var mainViewModel: MainViewModel
 
     @Inject
     lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Any>
@@ -25,11 +33,13 @@ class MainActivity : AppCompatActivity(), NewsListFragment.OnListItemClickInFrag
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
-        AndroidInjection.inject(this)
+//        AndroidInjection.inject(this)
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         if (savedInstanceState == null) setFragment(NewsListFragment(), listTag)
+
+//        mainViewModel = injectViewModel(viewModelFactory)
     }
 
 

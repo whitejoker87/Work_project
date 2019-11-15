@@ -6,29 +6,29 @@ import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.testfls.R
 import com.example.testfls.di.utils.injectViewModel
 import com.example.testfls.model.NewsItem
-import com.example.testfls.viewmodel.MainViewModel
+//import com.example.testfls.viewmodel.MainViewModel
 import com.example.testfls.viewmodel.NewsListViewModel
 import com.example.testfls.viewmodel.ViewModelFactory
 import dagger.android.support.AndroidSupportInjection
+import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.fragment_newsitem_list.*
 import kotlinx.android.synthetic.main.fragment_newsitem_list.view.*
 import javax.inject.Inject
 
 
-class NewsListFragment : Fragment(),
+class NewsListFragment : DaggerFragment(),
     SwipeRefreshLayout.OnRefreshListener,
     NewsItemRecyclerViewAdapter.NewsItemRecyclerViewAdapterCallback {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
     lateinit var newsListViewModel: NewsListViewModel
-    lateinit var mainViewModel: MainViewModel
+//    lateinit var mainViewModel: MainViewModel
 
 
     private val newsAdapter = NewsItemRecyclerViewAdapter(this)
@@ -48,21 +48,20 @@ class NewsListFragment : Fragment(),
 //    }
 
     override fun onRefresh() {
-//        loadData(true)
+        loadData(true)
     }
 
-    override fun onItemClick(pos: Int, title: String) {
-//        listenerListItemClickIn?.onListItemClick(NewsDescriptionFragment.newInstance(title), itemTag)
+    override fun onItemClick(title: String) {
+        listenerListItemClickIn?.onListItemClick(NewsDescriptionFragment.newInstance(title), itemTag)
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         newsListViewModel = injectViewModel(viewModelFactory)
-        mainViewModel = requireActivity().injectViewModel(viewModelFactory)
     }
 
     override fun onAttach(context: Context) {
-        AndroidSupportInjection.inject(this)
+//        AndroidSupportInjection.inject(this)
         super.onAttach(context)
 
         if (context is OnListItemClickInFragmentListener) {

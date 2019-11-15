@@ -8,7 +8,6 @@ import dagger.Provides
 @Module
 class NewsDescriptionFragmentModule {
 
-
     @Provides
     fun provideTitle(newsDescriptionFragment: NewsDescriptionFragment): String {
         var title: String? = ""
