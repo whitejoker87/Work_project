@@ -12,7 +12,7 @@ import dagger.Provides
 import dagger.android.ContributesAndroidInjector
 import dagger.multibindings.IntoMap
 
-@Module
+@Module(includes = [ViewModelModule::class])
 interface FragmentBindingsModule {
 
     @ContributesAndroidInjector
@@ -20,25 +20,4 @@ interface FragmentBindingsModule {
 
     @ContributesAndroidInjector(modules = [NewsDescriptionFragmentModule::class])
     fun contributeNewsDescriptionFragment(): NewsDescriptionFragment
-
-//    @Module
-//    class InjectViewModel {
-//
-//        @Provides
-//        fun provideNewsDescriptionViewModel(factory: ViewModelProvider.Factory, target: NewsDescriptionFragment) =
-//            ViewModelProviders.of(target, factory)[NewsDescriptionViewModel::class.java]
-//
-//    }
-//
-//    @Module
-//    class ProvideViewModel {
-//
-//        @Provides
-//        @IntoMap
-//        @ViewModelKey(NewsDescriptionViewModel::class)
-//        fun provideNewsDescriptionViewModel(repository: NewsRepository, title: String): ViewModel =
-//            NewsDescriptionViewModel(repository, title)
-//
-//    }
-
 }

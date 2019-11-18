@@ -18,8 +18,8 @@ import javax.inject.Singleton
 abstract class ViewModelModule {
 
     @Binds
-    internal abstract fun bindViewModelFactory(
-        factory: ViewModelFactory): ViewModelProvider.Factory
+    abstract fun bindViewModelFactory(
+        factory: ViewModelFactory<ViewModel>): ViewModelProvider.Factory
 
 
 //    @Binds
@@ -30,10 +30,15 @@ abstract class ViewModelModule {
     @Binds
     @IntoMap
     @ViewModelKey(NewsListViewModel::class)
-    internal abstract fun newsListViewModel(viewModel: NewsListViewModel): ViewModel
+    abstract fun newsListViewModel(viewModel: NewsListViewModel): ViewModel
 
     @Binds
     @IntoMap
     @ViewModelKey(NewsDescriptionViewModel::class)
-    internal abstract fun newsDescriptionViewModel(viewModel: NewsDescriptionViewModel): ViewModel
+    abstract fun newsDescriptionViewModel(viewModel: NewsDescriptionViewModel): ViewModel
+
+//    @Provides
+//    @IntoMap
+//    @ViewModelKey(NewsDescriptionViewModel::class)
+//    fun newsDescriptionViewModel(repository: NewsRepository, title: String): ViewModel = newsDescriptionViewModel(repository, title)
 }

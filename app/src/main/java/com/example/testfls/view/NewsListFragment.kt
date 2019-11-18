@@ -9,11 +9,12 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.testfls.R
+import com.example.testfls.di.FragmentScope
 import com.example.testfls.di.utils.injectViewModel
 import com.example.testfls.model.NewsItem
 //import com.example.testfls.viewmodel.MainViewModel
 import com.example.testfls.viewmodel.NewsListViewModel
-import com.example.testfls.viewmodel.ViewModelFactory
+//import com.example.testfls.viewmodel.ViewModelFactory
 import dagger.android.support.AndroidSupportInjection
 import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.fragment_newsitem_list.*
@@ -25,9 +26,10 @@ class NewsListFragment : DaggerFragment(),
     SwipeRefreshLayout.OnRefreshListener,
     NewsItemRecyclerViewAdapter.NewsItemRecyclerViewAdapterCallback {
 
-    @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
-    lateinit var newsListViewModel: NewsListViewModel
+//    @Inject
+//    @FragmentScope
+//    lateinit var viewModelFactory: ViewModelProvider.Factory
+//    lateinit var newsListViewModel: NewsListViewModel
 //    lateinit var mainViewModel: MainViewModel
 
 
@@ -38,8 +40,8 @@ class NewsListFragment : DaggerFragment(),
 
 
     private fun loadData(pullToRefresh: Boolean) {
-        newsListViewModel.setRefresh(pullToRefresh)
-        newsListViewModel.getRss()
+//        newsListViewModel.setRefresh(pullToRefresh)
+//        newsListViewModel.getRss()
     }
 
 //    override fun getErrorMessage(e: Throwable?, pullToRefresh: Boolean): String {
@@ -57,7 +59,7 @@ class NewsListFragment : DaggerFragment(),
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        newsListViewModel = injectViewModel(viewModelFactory)
+//        newsListViewModel = injectViewModel(viewModelFactory)
     }
 
     override fun onAttach(context: Context) {
@@ -98,11 +100,11 @@ class NewsListFragment : DaggerFragment(),
         contentView.setOnRefreshListener(this)
         loadData(false)
 
-        newsListViewModel.getListNews().observe(viewLifecycleOwner, Observer {
-            newsAdapter.setNewsItems(it)
-            contentView.isRefreshing = false
-            newsListViewModel.setRefresh(false)
-        })
+//        newsListViewModel.getListNews().observe(viewLifecycleOwner, Observer {
+//            newsAdapter.setNewsItems(it)
+//            contentView.isRefreshing = false
+//            newsListViewModel.setRefresh(false)
+//        })
 
     }
 

@@ -25,7 +25,7 @@ class MainActivity : DaggerAppCompatActivity(), NewsListFragment.OnListItemClick
     @Inject
     lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Any>
 
-    override fun androidInjector(): AndroidInjector<Any> = dispatchingAndroidInjector
+    override fun androidInjector() = dispatchingAndroidInjector
 
     private val listTag = "list"
     private val itemTag = "newsItem"

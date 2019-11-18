@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.testfls.R
+import com.example.testfls.di.FragmentScope
 import com.example.testfls.di.utils.injectViewModel
 //import com.example.testfls.viewmodel.MainViewModel
 import com.example.testfls.viewmodel.NewsDescriptionViewModel
@@ -17,6 +18,7 @@ import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.fragment_news_description.*
 import javax.inject.Inject
 import javax.inject.Qualifier
+import javax.inject.Singleton
 
 
 const val ARG_TITLE = "title"
@@ -25,7 +27,7 @@ const val ARG_TITLE = "title"
 class NewsDescriptionFragment : DaggerFragment() {
 
     @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
+    lateinit var viewModelFactory: ViewModelFactory<NewsDescriptionViewModel>
     lateinit var newsDescriptionViewModel: NewsDescriptionViewModel
 //    lateinit var mainViewModel: MainViewModel
 
@@ -43,10 +45,6 @@ class NewsDescriptionFragment : DaggerFragment() {
         newsDescriptionViewModel = injectViewModel(viewModelFactory)
     }
 
-//    override fun onAttach(context: Context) {
-////        AndroidSupportInjection.inject(this)
-//        super.onAttach(context)
-//    }
 
 //    override fun onCreate(savedInstanceState: Bundle?) {
 //        super.onCreate(savedInstanceState)

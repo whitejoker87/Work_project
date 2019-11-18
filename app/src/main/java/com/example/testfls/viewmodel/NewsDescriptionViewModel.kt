@@ -10,8 +10,9 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
+import javax.inject.Named
 
-class NewsDescriptionViewModel @Inject constructor(private val repository: NewsRepository, private val title: String): ViewModel() {
+class NewsDescriptionViewModel @Inject constructor(private val repository: NewsRepository, /*@Named("Title")*/ private val title: String): ViewModel() {
 
     private var compositeDisposable = CompositeDisposable()
 
@@ -34,7 +35,7 @@ class NewsDescriptionViewModel @Inject constructor(private val repository: NewsR
 
         compositeDisposable.add(
             repository
-                .getNewsItem(title)
+                .getNewsItem("")
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe ({ newsItem: NewsItem -> fillNewsItem(newsItem)},{ t: Throwable -> setError(t)})
