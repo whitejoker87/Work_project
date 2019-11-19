@@ -17,59 +17,59 @@ class NewsListViewModel @Inject constructor(private val repository: NewsReposito
 
     private val isLoading = MutableLiveData<Boolean>(false)
     private val isRefresh = MutableLiveData<Boolean>(false)
+    private val error = MutableLiveData<Throwable>()
 
-
-    //    private val listNews: MutableLiveData<List<NewsItem>> by lazy {
-//        listNews.also {
-//            getRss()
-//        }
-//    }
     private val listNews = MutableLiveData<List<NewsItem>>()
 
 
-fun setRefresh(refresh: Boolean) {
-    isRefresh.value = refresh
-}
+    fun setRefresh(refresh: Boolean) {
+        isRefresh.value = refresh
+    }
 
-fun isRefresh(): LiveData<Boolean> = isRefresh
+    fun isRefresh() = isRefresh
 
-fun isLoading(): LiveData<Boolean> = isLoading
+    fun isLoading() = isLoading
 
-fun getListNews(): LiveData<List<NewsItem>> = listNews
+    private fun setError(t: Throwable) {
+        isLoading.value = false
+        error.value = t
+    }
 
-
-fun getRss() {
-
-    isLoading.value = true
-
-    compositeDisposable.add(
-        repository
-            .getListNews(isRefresh().value as Boolean)
-            .map { news -> sortNews(news) }
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({ news: List<NewsItem> -> setRss(news) },
-                { t: Throwable -> setError(t, isRefresh().value as Boolean) })
-    )
-}
-
-private fun setRss(news: List<NewsItem>) {
-    listNews.value = news
-    isLoading.value = false
-}
-
-private fun sortNews(news: List<NewsItem>): List<NewsItem> =
-    news.sortedWith(compareByDescending { it.pubDate })
-
-private fun setError(t: Throwable, pullToRefresh: Boolean) {
-//        view?.showError(t, pullToRefresh)
-}
+    fun getError() = error
 
 
-override fun onCleared() {
-    compositeDisposable.dispose()
-    super.onCleared()
-}
+    private fun setNews(news: List<NewsItem>) {
+        listNews.value = news
+        isLoading.value = false
+    }
+
+    fun getListNews(): LiveData<List<NewsItem>> = listNews
+
+
+    fun getRss() {
+
+        isLoading.value = true
+
+        compositeDisposable.add(
+            repository
+                .getListNews(isRefresh().value as Boolean)
+                .map { news -> sortNews(news) }
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({ news: List<NewsItem> -> setNews(news) },
+                    { t: Throwable -> setError(t) })
+        )
+    }
+
+
+    private fun sortNews(news: List<NewsItem>): List<NewsItem> =
+        news.sortedWith(compareByDescending { it.pubDate })
+
+
+    override fun onCleared() {
+        compositeDisposable.dispose()
+        super.onCleared()
+    }
 }
 
 

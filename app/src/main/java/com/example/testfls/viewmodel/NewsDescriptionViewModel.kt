@@ -5,23 +5,31 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.testfls.model.NewsItem
 import com.example.testfls.model.NewsRepository
-import com.example.testfls.view.NewsDescriptionFragment
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 import javax.inject.Named
 
-class NewsDescriptionViewModel @Inject constructor(private val repository: NewsRepository, /*@Named("Title")*/ private val title: String): ViewModel() {
+class NewsDescriptionViewModel @Inject constructor(private val repository: NewsRepository, @Named("Title") private val title: String): ViewModel() {
 
     private var compositeDisposable = CompositeDisposable()
 
     private val isLoading = MutableLiveData<Boolean>(false)
 
+    private val error = MutableLiveData<Throwable>()
+
     private val newsItem = MutableLiveData<NewsItem>(NewsItem("", 0, "", ""))
 
 
     fun isLoading(): LiveData<Boolean> = isLoading
+
+    private fun setError(t: Throwable) {
+        isLoading.value = false
+        error.value = t
+    }
+
+    fun getError() = error
 
     private fun setNewsItem(item: NewsItem) {
         newsItem.value = item
@@ -35,7 +43,7 @@ class NewsDescriptionViewModel @Inject constructor(private val repository: NewsR
 
         compositeDisposable.add(
             repository
-                .getNewsItem("")
+                .getNewsItem(title)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe ({ newsItem: NewsItem -> fillNewsItem(newsItem)},{ t: Throwable -> setError(t)})
@@ -47,9 +55,6 @@ class NewsDescriptionViewModel @Inject constructor(private val repository: NewsR
         isLoading.value = false
     }
 
-    private fun setError(t: Throwable) {
-//        view?.showError(t, pullToRefresh)
-    }
 
     override fun onCleared() {
         compositeDisposable.dispose()

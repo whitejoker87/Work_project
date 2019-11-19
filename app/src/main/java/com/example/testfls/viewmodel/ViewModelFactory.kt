@@ -8,7 +8,7 @@ import javax.inject.Provider
 import javax.inject.Singleton
 import dagger.Lazy
 
-@Singleton
+//@Singleton
 //class ViewModelFactory @Inject constructor(
 //    private val viewModels: MutableMap<Class<out ViewModel>, @JvmSuppressWildcards Provider<ViewModel>>
 //) : ViewModelProvider.Factory {

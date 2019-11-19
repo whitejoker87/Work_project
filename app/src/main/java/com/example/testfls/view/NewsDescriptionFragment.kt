@@ -1,24 +1,17 @@
 package com.example.testfls.view
 
-import android.content.Context
 import android.os.Bundle
 import android.view.*
 import android.webkit.WebViewClient
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import com.example.testfls.R
-import com.example.testfls.di.FragmentScope
 import com.example.testfls.di.utils.injectViewModel
 //import com.example.testfls.viewmodel.MainViewModel
 import com.example.testfls.viewmodel.NewsDescriptionViewModel
 import com.example.testfls.viewmodel.ViewModelFactory
-import dagger.android.support.AndroidSupportInjection
 import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.fragment_news_description.*
 import javax.inject.Inject
-import javax.inject.Qualifier
-import javax.inject.Singleton
 
 
 const val ARG_TITLE = "title"
@@ -36,9 +29,6 @@ class NewsDescriptionFragment : DaggerFragment() {
         newsDescriptionViewModel.sendNewsItem()
     }
 
-
-//    override fun getErrorMessage(e: Throwable?, pullToRefresh: Boolean): String =
-//        resources.getText(R.string.description_error_message).toString() + " $e"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -64,19 +54,44 @@ class NewsDescriptionFragment : DaggerFragment() {
         super.onViewCreated(view, savedInstanceState)
         loadData()
 
-        newsDescriptionViewModel.getNewsItem().observe(viewLifecycleOwner, Observer {
-            if (it != null) {
-                //         val webSet = full_new.settings
+        with(newsDescriptionViewModel) {
+
+            getNewsItem().observe(viewLifecycleOwner, Observer {
+                if (it != null) {
+                    errorView.visibility = View.GONE
+                    contentView.visibility = View.VISIBLE
+                    //         val webSet = full_new.settings
 //        webSet.javaScriptEnabled = true
 //        webSet.allowFileAccess =true
 //        webSet.loadsImagesAutomatically = true
-                full_new.scrollBarStyle = View.SCROLLBARS_OUTSIDE_OVERLAY
-                full_new.webViewClient = WebViewClient()
-                full_new.loadUrl(it.link)
+                    full_new.scrollBarStyle = View.SCROLLBARS_OUTSIDE_OVERLAY
+                    full_new.webViewClient = WebViewClient()
+                    full_new.loadUrl(it.link)
 
-                toolbar.title = it.title
-            }
-        })
+                    toolbar.title = it.title
+                }
+            })
+
+
+            isLoading().observe(viewLifecycleOwner, Observer {
+                if (it != null) {
+                    if (it == true) {
+                        loadingView.visibility = View.VISIBLE
+                    } else loadingView.visibility = View.GONE
+                }
+            })
+
+            getError().observe(viewLifecycleOwner, Observer {
+                if (it != null) {
+//                    contentView.isRefreshing = false
+                    contentView.visibility = View.GONE
+                    errorView.visibility = View.VISIBLE
+                    errorView.text =
+                        resources.getText(R.string.description_error_message).toString() + " $it"
+                }
+            })
+        }
+
     }
 
     override fun onResume() {

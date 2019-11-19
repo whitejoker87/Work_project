@@ -15,14 +15,10 @@ import javax.inject.Singleton
         AndroidInjectionModule::class,
 
         ActivityBindingModule::class,
-//        FragmentBindingsModule::class,
-//        NewsDescriptionFragmentModule::class,
 
         RepositoryModule::class,
         ApiModule::class,
         DbModule::class
-//        ViewModelFactoryModule::class
-//        ViewModelModule::class
     ]
 )
 interface AppComponent {

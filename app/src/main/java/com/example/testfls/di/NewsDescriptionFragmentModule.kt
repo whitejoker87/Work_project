@@ -18,7 +18,7 @@ import javax.inject.Singleton
 class NewsDescriptionFragmentModule {
 
     @Provides
-//    @Named("Title")
+    @Named("Title")
     fun provideTitle(newsDescriptionFragment: NewsDescriptionFragment): String {
         var title: String? = ""
         newsDescriptionFragment.arguments?.let {
