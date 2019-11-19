@@ -6,7 +6,7 @@ import android.webkit.WebViewClient
 import androidx.lifecycle.Observer
 import com.example.testfls.R
 import com.example.testfls.di.utils.injectViewModel
-//import com.example.testfls.viewmodel.MainViewModel
+import com.example.testfls.viewmodel.MainViewModel
 import com.example.testfls.viewmodel.NewsDescriptionViewModel
 import com.example.testfls.viewmodel.ViewModelFactory
 import dagger.android.support.DaggerFragment
@@ -14,7 +14,7 @@ import kotlinx.android.synthetic.main.fragment_news_description.*
 import javax.inject.Inject
 
 
-const val ARG_TITLE = "title"
+//const val ARG_TITLE = "title"
 
 
 class NewsDescriptionFragment : DaggerFragment() {
@@ -22,7 +22,7 @@ class NewsDescriptionFragment : DaggerFragment() {
     @Inject
     lateinit var viewModelFactory: ViewModelFactory<NewsDescriptionViewModel>
     lateinit var newsDescriptionViewModel: NewsDescriptionViewModel
-//    lateinit var mainViewModel: MainViewModel
+    lateinit var mainViewModel: MainViewModel
 
 
     private fun loadData() {
@@ -32,7 +32,9 @@ class NewsDescriptionFragment : DaggerFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        mainViewModel = requireActivity().injectViewModel(viewModelFactory)
         newsDescriptionViewModel = injectViewModel(viewModelFactory)
+
     }
 
 
@@ -103,13 +105,13 @@ class NewsDescriptionFragment : DaggerFragment() {
 
     }
 
-    companion object {
-        @JvmStatic
-        fun newInstance(title: String) =
-            NewsDescriptionFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_TITLE, title)
-                }
-            }
-    }
+//    companion object {
+//        @JvmStatic
+//        fun newInstance(title: String) =
+//            NewsDescriptionFragment().apply {
+//                arguments = Bundle().apply {
+//                    putString(ARG_TITLE, title)
+//                }
+//            }
+//    }
 }

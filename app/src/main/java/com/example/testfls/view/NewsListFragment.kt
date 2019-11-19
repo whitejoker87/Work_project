@@ -1,16 +1,13 @@
 package com.example.testfls.view
 
-import android.content.Context
-import android.opengl.Visibility
 import android.os.Bundle
 import android.view.*
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.testfls.R
 import com.example.testfls.di.utils.injectViewModel
-//import com.example.testfls.viewmodel.MainViewModel
+import com.example.testfls.viewmodel.MainViewModel
 import com.example.testfls.viewmodel.NewsListViewModel
 import com.example.testfls.viewmodel.ViewModelFactory
 import dagger.android.support.DaggerFragment
@@ -26,13 +23,13 @@ class NewsListFragment : DaggerFragment(),
     @Inject
     lateinit var viewModelFactory: ViewModelFactory<NewsListViewModel>
     lateinit var newsListViewModel: NewsListViewModel
-//    lateinit var mainViewModel: MainViewModel
+    lateinit var mainViewModel: MainViewModel
 
 
     private val newsAdapter = NewsItemRecyclerViewAdapter(this)
-    private var listenerListItemClickIn: OnListItemClickInFragmentListener? = null
+//    private var listenerListItemClickIn: OnListItemClickInFragmentListener? = null
 
-    private val itemTag = "newsItem"
+//    private val itemTag = "newsItem"
 
 
     private fun loadData(pullToRefresh: Boolean) {
@@ -45,28 +42,30 @@ class NewsListFragment : DaggerFragment(),
     }
 
     override fun onItemClick(title: String) {
-        listenerListItemClickIn?.onListItemClick(NewsDescriptionFragment.newInstance(title), itemTag)
+//        listenerListItemClickIn?.onListItemClick(NewsDescriptionFragment.newInstance(title), itemTag)
+        mainViewModel.startDescriptionFragment(title)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         newsListViewModel = injectViewModel(viewModelFactory)
+        mainViewModel = requireActivity().injectViewModel(viewModelFactory)
     }
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
+//    override fun onAttach(context: Context) {
+//        super.onAttach(context)
+//
+//        if (context is OnListItemClickInFragmentListener) {
+//            listenerListItemClickIn = context
+//        } else {
+//            throw RuntimeException("$context" + resources.getText(R.string.eroor_implements_listener).toString())
+//        }
+//    }
 
-        if (context is OnListItemClickInFragmentListener) {
-            listenerListItemClickIn = context
-        } else {
-            throw RuntimeException("$context" + resources.getText(R.string.eroor_implements_listener).toString())
-        }
-    }
-
-    override fun onDetach() {
-        super.onDetach()
-        listenerListItemClickIn = null
-    }
+//    override fun onDetach() {
+//        super.onDetach()
+//        listenerListItemClickIn = null
+//    }
 
 
     override fun onCreateView(
@@ -141,7 +140,7 @@ class NewsListFragment : DaggerFragment(),
         setHasOptionsMenu(true)
 
     }
-    interface OnListItemClickInFragmentListener {
-        fun onListItemClick(fragment: Fragment, name: String)
-    }
+//    interface OnListItemClickInFragmentListener {
+//        fun onListItemClick(fragment: Fragment, name: String)
+//    }
 }

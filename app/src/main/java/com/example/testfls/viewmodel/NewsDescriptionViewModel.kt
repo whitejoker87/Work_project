@@ -29,7 +29,7 @@ class NewsDescriptionViewModel @Inject constructor(private val repository: NewsR
         error.value = t
     }
 
-    fun getError() = error
+    fun getError(): LiveData<Throwable> = error
 
     private fun setNewsItem(item: NewsItem) {
         newsItem.value = item

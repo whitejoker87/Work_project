@@ -26,16 +26,16 @@ class NewsListViewModel @Inject constructor(private val repository: NewsReposito
         isRefresh.value = refresh
     }
 
-    fun isRefresh() = isRefresh
+    fun isRefresh(): LiveData<Boolean> = isRefresh
 
-    fun isLoading() = isLoading
+    fun isLoading(): LiveData<Boolean> = isLoading
 
     private fun setError(t: Throwable) {
         isLoading.value = false
         error.value = t
     }
 
-    fun getError() = error
+    fun getError(): LiveData<Throwable> = error
 
 
     private fun setNews(news: List<NewsItem>) {
