@@ -16,13 +16,12 @@ class NewsItemRecyclerViewAdapter(private val listener: NewsItemRecyclerViewAdap
     private var newsList: List<NewsItem> = listOf()
 
     private val millsToStringPattern = "EEE, dd LLL yyyy HH:mm:ss"
+    private val formatDate = SimpleDateFormat(millsToStringPattern, Locale.getDefault())
 
     fun setNewsItems(news: List<NewsItem>) {
         newsList = news
         notifyDataSetChanged()
     }
-
-//    fun getNewsItems(): List<NewsItem> = newsList
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -42,7 +41,7 @@ class NewsItemRecyclerViewAdapter(private val listener: NewsItemRecyclerViewAdap
 
 
     private fun dateMillsToDateStr(dateMills: Long): String =
-        SimpleDateFormat(millsToStringPattern, Locale.getDefault()).format(Date(dateMills))
+        formatDate.format(Date(dateMills))
 
 
     inner class ViewHolder(mView: View, private val listener: NewsItemRecyclerViewAdapterCallback) : RecyclerView.ViewHolder(mView), View.OnClickListener {

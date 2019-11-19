@@ -5,7 +5,7 @@ import com.example.testfls.view.NewsListFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
-@Module(includes = [ViewModelModule::class])
+@Module
 interface FragmentBindingsModule {
 
     @ContributesAndroidInjector

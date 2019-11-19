@@ -5,8 +5,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import com.example.testfls.R
 import com.example.testfls.di.utils.injectViewModel
-import com.example.testfls.viewmodel.FRAGMENT_ITEM
-import com.example.testfls.viewmodel.FRAGMENT_LIST
 import com.example.testfls.viewmodel.MainViewModel
 import com.example.testfls.viewmodel.ViewModelFactory
 import dagger.android.DispatchingAndroidInjector
@@ -14,8 +12,11 @@ import dagger.android.HasAndroidInjector
 import dagger.android.support.DaggerAppCompatActivity
 import javax.inject.Inject
 
+const val FRAGMENT_LIST = "list"
+const val FRAGMENT_ITEM = "newsItem"
 
-class MainActivity : DaggerAppCompatActivity()/*, NewsListFragment.OnListItemClickInFragmentListener*/,
+
+class MainActivity : DaggerAppCompatActivity(), NewsListFragment.OnListItemClickInFragmentListener,
     HasAndroidInjector {
 
     @Inject
@@ -34,14 +35,6 @@ class MainActivity : DaggerAppCompatActivity()/*, NewsListFragment.OnListItemCli
         if (savedInstanceState == null) setFragment(NewsListFragment(), FRAGMENT_LIST)
 
         mainViewModel = injectViewModel(viewModelFactory)
-
-        mainViewModel.getFragmentTypeForStart().observe(this, Observer {
-            when(it) {
-                FRAGMENT_LIST -> setFragment(NewsListFragment(), FRAGMENT_LIST)
-                FRAGMENT_ITEM -> setFragment(NewsDescriptionFragment(), FRAGMENT_ITEM)
-                else -> return@Observer
-            }
-        })
     }
 
 
@@ -83,9 +76,9 @@ class MainActivity : DaggerAppCompatActivity()/*, NewsListFragment.OnListItemCli
 
     }
 
-//    override fun onListItemClick(fragment: Fragment, name: String) {
-//        setFragment(fragment, name)
-//    }
+    override fun onListItemClick(fragment: Fragment, type: String) {
+        setFragment(fragment, type)
+    }
 }
 
 

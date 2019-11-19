@@ -14,7 +14,7 @@ import kotlinx.android.synthetic.main.fragment_news_description.*
 import javax.inject.Inject
 
 
-//const val ARG_TITLE = "title"
+const val ARG_TITLE = "Title"
 
 
 class NewsDescriptionFragment : DaggerFragment() {
@@ -105,13 +105,13 @@ class NewsDescriptionFragment : DaggerFragment() {
 
     }
 
-//    companion object {
-//        @JvmStatic
-//        fun newInstance(title: String) =
-//            NewsDescriptionFragment().apply {
-//                arguments = Bundle().apply {
-//                    putString(ARG_TITLE, title)
-//                }
-//            }
-//    }
+    companion object {
+        @JvmStatic
+        fun newInstance(title: String) =
+            NewsDescriptionFragment().apply {
+                arguments = Bundle().apply {
+                    putString(ARG_TITLE, title)
+                }
+            }
+    }
 }

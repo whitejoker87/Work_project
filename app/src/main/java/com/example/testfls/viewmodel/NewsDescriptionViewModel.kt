@@ -5,13 +5,15 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.testfls.model.NewsItem
 import com.example.testfls.model.NewsRepository
+import com.example.testfls.view.ARG_TITLE
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 import javax.inject.Named
 
-class NewsDescriptionViewModel @Inject constructor(private val repository: NewsRepository, @Named("Title") private val title: String): ViewModel() {
+class NewsDescriptionViewModel @Inject constructor(private val repository: NewsRepository, @Named(
+    ARG_TITLE) private val title: String): ViewModel() {
 
     private var compositeDisposable = CompositeDisposable()
 
@@ -19,7 +21,7 @@ class NewsDescriptionViewModel @Inject constructor(private val repository: NewsR
 
     private val error = MutableLiveData<Throwable>()
 
-    private val newsItem = MutableLiveData<NewsItem>(NewsItem("", 0, "", ""))
+    private val newsItem = MutableLiveData<NewsItem>()
 
 
     fun isLoading(): LiveData<Boolean> = isLoading

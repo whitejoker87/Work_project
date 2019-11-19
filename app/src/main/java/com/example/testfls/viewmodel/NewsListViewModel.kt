@@ -15,7 +15,7 @@ class NewsListViewModel @Inject constructor(private val repository: NewsReposito
 
     private var compositeDisposable = CompositeDisposable()
 
-    private val isLoading = MutableLiveData<Boolean>(false)
+    private val isLoading = MutableLiveData<Boolean>()
     private val isRefresh = MutableLiveData<Boolean>(false)
     private val error = MutableLiveData<Throwable>()
 
@@ -39,8 +39,8 @@ class NewsListViewModel @Inject constructor(private val repository: NewsReposito
 
 
     private fun setNews(news: List<NewsItem>) {
-        listNews.value = news
         isLoading.value = false
+        listNews.value = news
     }
 
     fun getListNews(): LiveData<List<NewsItem>> = listNews
