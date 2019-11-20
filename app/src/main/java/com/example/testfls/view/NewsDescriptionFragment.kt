@@ -37,14 +37,6 @@ class NewsDescriptionFragment : DaggerFragment() {
 
     }
 
-
-//    override fun onCreate(savedInstanceState: Bundle?) {
-//        super.onCreate(savedInstanceState)
-//        arguments?.let {
-//            title = it.getString(ARG_TITLE)
-//        }
-//    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -85,7 +77,6 @@ class NewsDescriptionFragment : DaggerFragment() {
 
             getError().observe(viewLifecycleOwner, Observer {
                 if (it != null) {
-//                    contentView.isRefreshing = false
                     contentView.visibility = View.GONE
                     errorView.visibility = View.VISIBLE
                     errorView.text =
