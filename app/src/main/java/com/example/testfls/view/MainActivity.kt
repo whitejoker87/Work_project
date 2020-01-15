@@ -2,6 +2,7 @@ package com.example.testfls.view
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import com.example.testfls.R
 import com.example.testfls.di.utils.injectViewModel
 import com.example.testfls.viewmodel.MainViewModel
@@ -68,7 +69,7 @@ class MainActivity : DaggerAppCompatActivity(), NewsListFragment.OnListItemClick
 
 
     override fun onBackPressed() {
-//        if (resources.getBoolean(R.bool.isTablet)){
+        if (resources.getBoolean(R.bool.isTablet)){
 //            supportFragmentManager.fragments.let {
 //                if (it.isNotEmpty()) {
 //                    supportFragmentManager.beginTransaction().apply {
@@ -79,8 +80,11 @@ class MainActivity : DaggerAppCompatActivity(), NewsListFragment.OnListItemClick
 //                    }
 //                }
 //            }
-//            finish()
-//        }
+            supportFragmentManager.getBackStackEntryAt(0).let {
+                supportFragmentManager.popBackStackImmediate(it.id, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+            }
+            finish()
+        }
 
         when (supportFragmentManager.fragments.last().javaClass) {
             supportFragmentManager.findFragmentByTag(
