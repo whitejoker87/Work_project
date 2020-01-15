@@ -48,6 +48,13 @@ class NewsListFragment : DaggerFragment(),
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         newsListViewModel = injectViewModel(viewModelFactory)
+
+//        val onBackPressedCallback = object : OnBackPressedCallback(true) {
+//            override fun handleOnBackPressed() {
+//                requireActivity().finish()
+//            }
+//        }
+//        requireActivity().onBackPressedDispatcher.addCallback(this, onBackPressedCallback)
     }
 
     override fun onAttach(context: Context) {
@@ -110,14 +117,14 @@ class NewsListFragment : DaggerFragment(),
         return super.onOptionsItemSelected(item)
     }
 
+
+
     override fun onResume() {
         super.onResume()
-
-        (activity as MainActivity).setSupportActionBar(binding.toolbar)
-        binding.toolbar.title = resources.getText(R.string.news_list_title)
+        (activity as MainActivity).supportActionBar?.title = resources.getText(R.string.news_list_title)
         setHasOptionsMenu(true)
-
     }
+
     interface OnListItemClickInFragmentListener {
         fun onListItemClick(fragment: Fragment, type: String)
     }

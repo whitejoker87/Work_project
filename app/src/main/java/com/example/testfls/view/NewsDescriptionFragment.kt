@@ -3,7 +3,6 @@ package com.example.testfls.view
 import android.os.Bundle
 import android.view.*
 import android.webkit.WebChromeClient
-import android.webkit.WebViewClient
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import com.example.testfls.R
@@ -13,7 +12,6 @@ import com.example.testfls.viewmodel.MainViewModel
 import com.example.testfls.viewmodel.NewsDescriptionViewModel
 import com.example.testfls.viewmodel.ViewModelFactory
 import dagger.android.support.DaggerFragment
-import kotlinx.android.synthetic.main.fragment_news_description.*
 import javax.inject.Inject
 
 
@@ -61,45 +59,24 @@ class NewsDescriptionFragment : DaggerFragment() {
 
             getNewsItem().observe(viewLifecycleOwner, Observer {
                 if (it != null) {
-//                    errorView.visibility = View.GONE
-//                    contentView.visibility = View.VISIBLE
-                    //         val webSet = full_new.settings
-//        webSet.javaScriptEnabled = true
-//        webSet.allowFileAccess =true
-//        webSet.loadsImagesAutomatically = true
-                    binding.fullNew.scrollBarStyle = View.SCROLLBARS_OUTSIDE_OVERLAY
+//                    val webSet = full_new.settings
+//                    webSet.cacheMode = WebSettings.LOAD_NO_CACHE
+//                    webSet.javaScriptEnabled = true
+//                    webSet.allowFileAccess =true
+//                    webSet.loadsImagesAutomatically = true
                     binding.fullNew.webChromeClient = WebChromeClient()
                     binding.fullNew.loadUrl(it.link)
 
-                    toolbar.title = it.title
+                    (activity as MainActivity).supportActionBar?.title = it.title
                 }
             })
-
-
-//            isLoading().observe(viewLifecycleOwner, Observer {
-//                if (it != null) {
-//                    if (it == true) {
-//                        loadingView.visibility = View.VISIBLE
-//                    } else loadingView.visibility = View.GONE
-//                }
-//            })
-
-//            getError().observe(viewLifecycleOwner, Observer {
-//                if (it != null) {
-//                    contentView.visibility = View.GONE
-//                    errorView.visibility = View.VISIBLE
-//                    errorView.text =
-//                        resources.getText(R.string.description_error_message).toString() + " $it"
-//                }
-//            })
         }
-
     }
 
     override fun onResume() {
         super.onResume()
 
-        (activity as MainActivity).setSupportActionBar(toolbar)
+
         (activity as MainActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
 

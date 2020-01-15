@@ -26,7 +26,7 @@ class NewsListViewModel @Inject constructor(private val repository: NewsReposito
         isRefresh.value = refresh
     }
 
-    fun isRefresh(): LiveData<Boolean> = isRefresh
+    private fun isRefresh(): LiveData<Boolean> = isRefresh
 
     fun isLoading(): LiveData<Boolean> = isLoading
 

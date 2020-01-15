@@ -17,32 +17,12 @@
         android:layout_height="match_parent"
         tools:context=".view.NewsDescriptionFragment">
 
-        <androidx.coordinatorlayout.widget.CoordinatorLayout
-
-            android:id="@+id/coordinatorLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-
-            <com.google.android.material.appbar.AppBarLayout
-                android:id="@+id/appbar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <androidx.appcompat.widget.Toolbar
-                    android:id="@+id/toolbar"
-                    style="@style/Toolbar" />
-
-            </com.google.android.material.appbar.AppBarLayout>
-
-
-        </androidx.coordinatorlayout.widget.CoordinatorLayout>
-
         <WebView
             android:id="@+id/full_new"
+
+            android:layerType="software"
+
+            android:scrollbarStyle="outsideOverlay"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginStart="16dp"
@@ -52,7 +32,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/coordinatorLayout"
+            app:layout_constraintTop_toTopOf="parent"
             tools:text="Текст новости" />
 
         <TextView
@@ -70,7 +50,7 @@
         <TextView
             android:id="@+id/errorView"
             android:visibility="@{viewModel.error != null}"
-            android:text='@{String.format(@string/description_error_message,viewModel.error)}'
+            android:text='@{@string/description_error_message(viewModel.error)}'
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"

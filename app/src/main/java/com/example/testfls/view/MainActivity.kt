@@ -2,7 +2,6 @@ package com.example.testfls.view
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import com.example.testfls.R
 import com.example.testfls.di.utils.injectViewModel
 import com.example.testfls.viewmodel.MainViewModel
@@ -10,6 +9,7 @@ import com.example.testfls.viewmodel.ViewModelFactory
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
 import dagger.android.support.DaggerAppCompatActivity
+import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
 
 const val FRAGMENT_LIST = "list"
@@ -37,6 +37,10 @@ class MainActivity : DaggerAppCompatActivity(), NewsListFragment.OnListItemClick
         mainViewModel = injectViewModel(viewModelFactory)
     }
 
+    override fun onResume() {
+        super.onResume()
+        setSupportActionBar(toolbar)
+    }
 
     private fun setFragment(fragment: Fragment, name: String) {
         val transaction = supportFragmentManager.beginTransaction()
@@ -51,8 +55,12 @@ class MainActivity : DaggerAppCompatActivity(), NewsListFragment.OnListItemClick
                 .addToBackStack(null)
                 .commit()
         } else {
+            val container = if (resources.getBoolean(R.bool.isTablet)) R.id.fragment_container_tablet else R.id.fragment_container
             transaction
-                .replace(R.id.fragment_container, fragment, name)
+                .replace(
+                    container,
+                    fragment,
+                    name)
                 .addToBackStack(null)
                 .commit()
         }
@@ -60,11 +68,24 @@ class MainActivity : DaggerAppCompatActivity(), NewsListFragment.OnListItemClick
 
 
     override fun onBackPressed() {
-        when {
-            supportFragmentManager.fragments.last().javaClass == supportFragmentManager.findFragmentByTag(
+//        if (resources.getBoolean(R.bool.isTablet)){
+//            supportFragmentManager.fragments.let {
+//                if (it.isNotEmpty()) {
+//                    supportFragmentManager.beginTransaction().apply {
+//                        for (fragment in it) {
+//                            remove(fragment)
+//                        }
+//                        commit()
+//                    }
+//                }
+//            }
+//            finish()
+//        }
+
+        when (supportFragmentManager.fragments.last().javaClass) {
+            supportFragmentManager.findFragmentByTag(
                 FRAGMENT_ITEM
             )?.javaClass -> setFragment(NewsListFragment(), FRAGMENT_LIST)
-
             else -> finish()
         }
     }
